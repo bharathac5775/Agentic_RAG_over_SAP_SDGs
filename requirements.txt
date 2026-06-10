@@ -1,0 +1,9 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+pydantic>=2.9
+pymupdf>=1.24
+ollama>=0.4
+chromadb>=0.5
+rank-bm25>=0.2
+numpy>=1.26
+pytest>=8.0

@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+markers = [
+    "live: tests that hit a real local LLM via Ollama (slow; require `ollama serve` + models pulled)",
+]
