@@ -1,47 +1,99 @@
+# =============================================================================
+# Agentic RAG over SAP SDGs — docker-compose
+# =============================================================================
+#
+# Two profiles. Choose ONE based on your host.
+#
+# ---------------------------------------------------------------------------
+# Profile  host-ollama   (DEFAULT — recommended on macOS)
+# ---------------------------------------------------------------------------
+# Runs ONLY the FastAPI app in Docker. Ollama runs natively on the host so
+# it can use Apple Metal GPU acceleration (Docker Desktop on Mac cannot
+# pass through Metal). The container reaches the host via
+# host.docker.internal:11434.
+#
+#   # 1. one-time, on the host:
+#   ollama pull nomic-embed-text llama3.1:8b llama3.2:latest
+#   ollama serve &              # if it isn't already running
+#
+#   # 2. build the index (writes to ./index/, bind-mounted into the container)
+#   docker compose --profile host-ollama run --rm app-host-ollama python -m app.ingest
+#
+#   # 3. start the API
+#   docker compose --profile host-ollama up
+#
+# ---------------------------------------------------------------------------
+# Profile  with-ollama   (Linux server with NVIDIA GPU, or Mac CPU-only)
+# ---------------------------------------------------------------------------
+# Runs Ollama as a sibling container. On Linux + NVIDIA, uncomment the
+# `deploy.resources.reservations.devices` block to use the GPU. On Mac
+# this profile works but Ollama runs on CPU only — significantly slower.
+#
+#   # 1. start the stack (first run downloads the models into the
+#   #    `ollama_models` volume — ~7 GB)
+#   docker compose --profile with-ollama up -d
+#
+#   # 2. pull models into the ollama container (first time only)
+#   docker compose exec ollama ollama pull nomic-embed-text llama3.1:8b llama3.2:latest
+#
+#   # 3. build the index
+#   docker compose --profile with-ollama run --rm app-with-ollama python -m app.ingest
+#
+#   # 4. ready: API on http://localhost:8000
+#
+# ---------------------------------------------------------------------------
+# Both profiles bind-mount:
+#   ./Data   (read-only — the source PDFs)
+#   ./index  (read-write — Chroma + BM25 + doc summaries)
+# so re-ingestion persists across container restarts.
+#
+# Switching profiles: `docker compose --profile <old> down` first, otherwise
+# the named volume / port mapping will be in use.
+# =============================================================================
 
 services:
 
   # -------------------------------------------------------------------------
-  # The FastAPI app — same image, two configurations.
+  # Template — NEVER started directly. No `profiles:` block, so it is
+  # excluded from every `up`. The two profile-specific services below use
+  # YAML anchors / `extends:` to inherit common configuration.
   # -------------------------------------------------------------------------
-  app:
+  app-base: &app-base
     build:
       context: .
       dockerfile: Dockerfile
     image: agentic-rag:latest
-    container_name: agentic-rag
     restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
-      # Source PDFs — read-only inside the container
       - ./Data:/app/Data:ro
-      # Index — writeable so `python -m app.ingest` persists
       - ./index:/app/index
     env_file:
-      # Optional. Created from .env.example. Gitignored.
       - path: .env
         required: false
-    profiles: ["host-ollama", "with-ollama"]
+    profiles: ["__never__"]   # excluded from every actual `up`
 
   # -------------------------------------------------------------------------
-  # Profile-specific overrides.
+  # Mac / Windows: app in Docker, Ollama on the host.
   # -------------------------------------------------------------------------
   app-host-ollama:
-    extends:
-      service: app
+    <<: *app-base
+    container_name: agentic-rag
     profiles: ["host-ollama"]
     environment:
       # Mac/Windows Docker Desktop maps `host.docker.internal` to the host.
-      # On Linux you may need: --add-host=host.docker.internal:host-gateway
+      # On Linux the extra_hosts line below makes the same name resolvable.
       OLLAMA_HOST: "http://host.docker.internal:11434"
     extra_hosts:
-      # Make `host.docker.internal` resolvable on Linux too. No-op on Mac.
       - "host.docker.internal:host-gateway"
 
+  # -------------------------------------------------------------------------
+  # Linux server (or Mac, slowly): app + Ollama as a sibling container.
+  # -------------------------------------------------------------------------
   app-with-ollama:
-    extends:
-      service: app
+    <<: *app-base
+    container_name: agentic-rag
     profiles: ["with-ollama"]
     environment:
       OLLAMA_HOST: "http://ollama:11434"
@@ -50,7 +102,7 @@ services:
         condition: service_healthy
 
   # -------------------------------------------------------------------------
-  # Optional: Ollama as a sibling container.
+  # Optional: Ollama as a sibling container (only in the with-ollama profile).
   # -------------------------------------------------------------------------
   ollama:
     image: ollama/ollama:latest

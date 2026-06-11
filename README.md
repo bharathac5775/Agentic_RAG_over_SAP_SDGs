@@ -116,7 +116,7 @@ curl http://127.0.0.1:8000/health
 Equivalent with compose:
 
 ```bash
-docker compose --profile host-ollama run --rm app python -m app.ingest
+docker compose --profile host-ollama run --rm app-host-ollama python -m app.ingest
 docker compose --profile host-ollama up
 ```
 
@@ -135,7 +135,7 @@ docker compose exec ollama \
   ollama pull nomic-embed-text llama3.1:8b llama3.2:latest
 
 # 3. Build the index
-docker compose --profile with-ollama run --rm app python -m app.ingest
+docker compose --profile with-ollama run --rm app-with-ollama python -m app.ingest
 
 # 4. The API is already running on http://localhost:8000
 curl http://127.0.0.1:8000/health
