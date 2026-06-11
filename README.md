@@ -1,21 +1,19 @@
 # Agentic RAG over SAP Service Description Guides
 
-A small, fully-local-by-default agentic RAG system that answers natural-language questions about SAP Service Description Guides (SDGs) — three contract PDFs totalling ~228 pages — and returns **grounded answers with section/page citations**. Built for an interview case study.
+A fully-local-by-default Retrieval-Augmented Generation system that answers natural-language questions about SAP Service Description Guides (SDGs) — three contract PDFs totalling ~228 pages — and returns **grounded answers with section/page citations**.
 
-> *"Coding tests don't show how you'd handle the messy parts of real AI work — choosing a retrieval strategy, grounding answers, deciding when 'agentic' earns its complexity, and knowing when your system is wrong."* — from the brief.
-
-Every choice in this repo is defensible, every metric is measured, and every limitation is documented honestly. This README is the document I would hand to a technical reviewer before the live discussion.
+The system uses hybrid lexical + semantic retrieval, an intent-aware router, a deterministic answer guard for tabular threshold lookups, and a self-check verifier that flags ungrounded claims with one bounded retry. Every architectural choice in this repository has an explicit rationale and an explicit trade-off; weaknesses are documented as honestly as strengths.
 
 ---
 
 ## TL;DR
 
-- **What it does.** Answers questions like *"What is an Active User?"* / *"Is 99.9% SLA available?"* / *"What is the size tier for S/4HANA PCE with 675 FUE?"* over the three SAP SDG PDFs in `Data/`. Returns the answer, the supporting quote, the doc title, the section number, and the page.
+- **What it does.** Answers questions like *"What is an Active User?"*, *"Is 99.9% SLA available?"*, or *"What is the size tier for S/4HANA PCE with 675 FUE?"* over the three SAP SDG PDFs in `Data/`. Returns the answer, the supporting quote, the doc title, the section number, and the page.
 - **Two genuinely-agentic steps**, not bolted on: a `(product, intent)` router (decides *which* doc family + *what kind* of question), and a self-check verifier (decides *is this answer grounded?* with one bounded retry).
 - **Hybrid retrieval** (BM25 + vector + Reciprocal Rank Fusion) with intent-tuned weights and a heading-anchor boost for canonical short clauses.
-- **Defensive layers** the brief asks for: input guardrails (regex + small-LLM fallback) catch prompt-injection / pricing / off-topic; output guardrails downgrade no-citation answers; a deterministic answer-guard repairs LLM citation defects; a verifier flags ungrounded claims.
-- **Run it three ways**: native Python, Docker (app-only, host Ollama), or `docker compose` (full stack).
-- **123 unit + integration tests, 15 hand-graded eval rows**, full per-step trace available on every query.
+- **Layered guardrails.** A deterministic input guardrail catches prompt-injection, pricing, and off-topic requests in 0 ms; an output guardrail downgrades no-citation answers; a deterministic answer-guard repairs LLM citation defects and corrects mis-read threshold tables; the verifier flags any remaining ungrounded claims.
+- **Three run paths**: native Python, Docker (app-only, host Ollama), or `docker compose` (full stack).
+- **123 unit + integration tests, 15 hand-graded eval rows**; a full per-step trace is available on every query.
 
 ---
 
@@ -217,12 +215,12 @@ For NVIDIA GPU passthrough on Linux: uncomment the `deploy.resources.reservation
 
 ### Agentic elements
 
-The brief asks for *"at least one justified agentic element."* This system has two:
+The system has two genuinely-agentic steps, neither bolted on:
 
-1. **The router** is genuinely agentic. It reads the question, decides which product family is in scope (the corpus has 2 products in 3 PDFs — two RISE docs overlap), classifies intent (`definition` / `specific_clause` / `comparison` / `general`), rewrites the query for the retriever, and emits a one-sentence justification. Heuristic overrides enforce invariants the LLM can't break (e.g., `comparison` intent must search ALL docs).
-2. **The verifier** is the second agentic step. It re-reads the generated answer alongside the chunks it was based on and emits a binary grounded/ungrounded judgement plus the unsupported claims. If ungrounded, the orchestrator runs ONE bounded retry with broader retrieval. If still ungrounded, the answer ships with `verified: false` and a warning — the system would rather flag uncertainty than fabricate.
+1. **The router** reads the question, decides which product family is in scope (the corpus has 2 products in 3 PDFs — two RISE docs overlap), classifies intent (`definition` / `specific_clause` / `comparison` / `general`), rewrites the query for the retriever, and emits a one-sentence justification. Heuristic overrides enforce invariants the LLM can't break (e.g., `comparison` intent must search ALL docs).
+2. **The verifier** re-reads the generated answer alongside the chunks it was based on and emits a binary grounded/ungrounded judgement plus the unsupported claims. If ungrounded, the orchestrator runs ONE bounded retry with broader retrieval. If still ungrounded, the answer ships with `verified: false` and a warning — the system would rather flag uncertainty than fabricate.
 
-Both steps are **right-sized**: they use `llama3.2:latest` (≈3B params), not the 8B generator. Each adds 1–3 s of latency in exchange for a reliability property the brief explicitly evaluates.
+Both steps are **right-sized**: they use `llama3.2:latest` (≈3B params), not the 8B generator. Each adds 1–3 s of latency in exchange for a measurable reliability property — the verifier alone catches the cross-product comparison failure mode (Q5 in the eval) cleanly.
 
 ### Project layout
 
@@ -289,7 +287,7 @@ Each one is a defensible choice; the trade-off is stated.
 
 ## Security & guardrails
 
-The brief asks for guardrails. This system has four layers.
+The system applies four layered defences against malformed, malicious, or out-of-scope input.
 
 ### 1. Input guardrail — Stage 1 regex (0 ms, no LLM)
 
@@ -325,7 +323,7 @@ The meta corpus (README + module docstrings) is searchable ONLY when `is_meta_qu
 
 ## Provider switching
 
-The brief says: *"Any LLM provider you have access to. Keep API keys out of the repo."*
+The system supports any LLM provider through a single env-var-driven abstraction (`app/llm.py`); no API keys live in the repo.
 
 Out of the box this runs on local Ollama with no keys. To switch — **edit `.env`, no code change**:
 
@@ -475,16 +473,16 @@ Ranked by impact / cost.
 
 ---
 
-## Tradeoffs / things I cut
+## Tradeoffs / things deliberately cut
 
-The brief explicitly evaluates *"knowing where to cut scope."*
+Each item below is a conscious scope choice, not an oversight.
 
 - **No streaming** — the verifier needs the complete answer to check grounding. Documented design choice, not a punt.
-- **No conversation memory** — each query is independent. Multi-turn was not in scope.
+- **No conversation memory** — each query is independent. Multi-turn was out of scope.
 - **No auth** — single-user local deployment. `/health` and `/query` are open.
 - **No cross-encoder reranker** — speculative cost without eval data showing the need. Now top of the priority list because eval data exists.
-- **No deployment / scaling docs** — out of scope per the brief.
-- **No exhaustive eval** — 15 hand-graded questions is the explicit "lightweight evaluation" the brief asked for. Not 100, not 1000.
+- **No production deployment / scaling docs** — out of scope for this iteration.
+- **No exhaustive eval** — 15 hand-graded questions is a lightweight signal, not a benchmark. Continuous metrics (`ragas` faithfulness / answer-relevance) are listed under *"What I'd do differently."*
 
 ---
 
@@ -554,25 +552,27 @@ The trace exposes: guardrail decision, router output, retrieved chunk IDs with R
 
 ---
 
-## Compliance with the brief
+## Capability checklist
 
-| Requirement | Status |
+A quick map between the system's capabilities and the artifacts that implement them.
+
+| Capability | Where it lives |
 |---|---|
-| Ingestion pipeline (load, chunk, embed, index) | ✅ `app/ingest.py` — Chroma + BM25 + doc summaries + meta corpus |
-| RAG with at least one justified agentic element | ✅ Two: `(product, intent)` router and self-check verifier |
-| Citations to source SDG and section/page | ✅ Pydantic-validated structured citations on every answer |
-| FastAPI: `POST /query`, `GET /health`, OpenAPI at `/docs` | ✅ All three live |
-| README with setup, architecture, decisions, what I'd do differently, examples | ✅ This document |
-| Lightweight evaluation (handful of hand-graded examples) | ✅ 15 questions in `eval/eval_set.json` + scorecard |
-| Python 3.10+ | ✅ 3.11.15 |
-| API keys out of the repo | ✅ `.env` gitignored, `.env.example` template, `app/llm.py` reads from env vars |
-| Containerised deployment | ✅ `Dockerfile` (multi-stage, non-root, healthcheck) + `docker-compose.yml` (two profiles) |
-| Streaming (nice-to-have) | ⏸ Cut — see "Tradeoffs" |
+| Ingestion pipeline (load, chunk, embed, index) | `app/ingest.py` — Chroma + BM25 + doc summaries + meta corpus |
+| RAG with two justified agentic elements | `app/router.py` (product/intent) and `app/agent.py::verify` (self-check) |
+| Citations to source SDG and section/page | Pydantic `Citation` schema, validated on every answer |
+| FastAPI surface — `POST /query`, `GET /health`, OpenAPI at `/docs` | `app/api.py` |
+| Architecture & decision documentation | This README + per-module docstrings |
+| Hand-graded evaluation harness | `eval/run_eval.py` over `eval/eval_set.json` |
+| Python 3.10+ | Tested on 3.11.15 |
+| API keys out of the repo | `.env` gitignored, `.env.example` template, `app/llm.py` reads env vars |
+| Containerised deployment | Multi-stage `Dockerfile` (non-root, healthcheck) + `docker-compose.yml` (two profiles) |
+| Streaming | Not implemented — see [Tradeoffs](#tradeoffs--things-deliberately-cut) |
 
 ---
 
 ## License & attribution
 
-Source SDG PDFs in `Data/` are SAP's documents — included for the case study only and not redistributed.
+Source SDG PDFs in `Data/` are SAP's documents and are not redistributed.
 
-The code is yours to read end-to-end. Every "interesting" file has a docstring at the top explaining the design choice; this README points to the modules where the trade-off lives.
+Every non-trivial source file carries a top-of-file docstring explaining the design choice it implements; this README points to the modules where each trade-off lives.
