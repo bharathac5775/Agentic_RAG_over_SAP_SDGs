@@ -26,7 +26,7 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from app import agent, config, guardrails, router
+from app import agent, answer_guard, config, guardrails, router
 from app.retrieve import Retriever, get_retriever
 from app.schemas import (
     Chunk,
@@ -127,9 +127,33 @@ def answer(
         )
 
     # ---- Step 1: router -----------------------------------------------
-    t0 = time.time()
-    decision, route_debug = router.route(question)
-    latency["route"] = int((time.time() - t0) * 1000)
+    # Meta-questions ("what does this app do?", "how does this work?")
+    # are not about the SDG corpus — they're about THIS system. We
+    # short-circuit the router LLM call and force the doc filter to the
+    # meta-corpus (README + module docstrings, indexed alongside the
+    # SDG PDFs). The rest of the pipeline runs unchanged: retrieval,
+    # generation, verification, citations all happen against real
+    # developer-maintained text. See app/guardrails.is_meta_question
+    # and app/meta_chunker.
+    if guardrails.is_meta_question(question):
+        from app.schemas import RouteDecision
+        decision = RouteDecision(
+            products=["meta_about_system"],
+            intent="general",
+            rewritten_query=question,
+            reasoning="meta-question about this system; routed to the meta-corpus",
+        )
+        route_debug = {
+            "fallback_used": False,
+            "overrides_applied": True,
+            "meta_short_circuit": True,
+            "latency_ms": 0,
+        }
+        latency["route"] = 0
+    else:
+        t0 = time.time()
+        decision, route_debug = router.route(question)
+        latency["route"] = int((time.time() - t0) * 1000)
     trace["route"] = {
         "products": list(decision.products),
         "intent": decision.intent,
@@ -137,14 +161,24 @@ def answer(
         "reasoning": decision.reasoning,
         "fallback_used": route_debug.get("fallback_used"),
         "overrides_applied": route_debug.get("overrides_applied"),
+        "meta_short_circuit": route_debug.get("meta_short_circuit", False),
     }
 
     # ---- Step 2-3: retrieve --------------------------------------------
     retr = retriever or get_retriever()
     docs = _resolve_doc_filter(list(decision.products))
+    # Use the rewritten query AND the original question for retrieval. The
+    # rewrite expands acronyms ("PCE" → "private cloud edition") which helps
+    # vector search, but it can also drop high-signal user terms like
+    # "size", numerals, or literal product names — those terms anchor BM25.
+    # Concatenating both gives the retriever the union of signals without
+    # changing what the LLM sees downstream.
+    search_query = (decision.rewritten_query or question).strip()
+    if search_query and search_query.lower() != question.strip().lower():
+        search_query = f"{search_query} {question.strip()}"
     t0 = time.time()
     chunks, retr_debug = retr.search(
-        decision.rewritten_query or question,
+        search_query or question,
         docs=docs,
         intent=decision.intent,
     )
@@ -167,6 +201,14 @@ def answer(
         "dropped_citations": gen_debug.get("dropped_citations"),
     }
 
+    # ---- Step 4b: deterministic answer guard --------------------------
+    # Catches the failure mode where the LLM cites the right row but
+    # mis-labels it (e.g. cites "Up to 1000 FUE / S" but answers "M").
+    # Generic across any tier/threshold table; opts out for non-numeric
+    # questions or non-label-shaped answers. See app/answer_guard.py.
+    draft, guard_debug = answer_guard.maybe_correct(question, draft)
+    trace["answer_guard"] = guard_debug
+
     # ---- Step 5a: output guardrail (cheap, deterministic) -------------
     t0 = time.time()
     draft, og_debug = guardrails.check_output(draft)
@@ -185,14 +227,33 @@ def answer(
     }
 
     # ---- Step 6: one bounded retry if ungrounded ----------------------
-    if (
+    # If the deterministic answer guard fired, the answer was constructed
+    # directly from the cited quote — by construction it is grounded, so
+    # we skip the retry path and force verified=True. Otherwise fall back
+    # to the standard one-shot retry on grounded=false.
+    if guard_debug.get("applied"):
+        verdict = verdict.model_copy(update={
+            "grounded": True,
+            "unsupported_claims": [],
+            "missing_citations": [],
+        })
+        trace["verifier"]["grounded"] = True
+        trace["verifier"]["unsupported_claims"] = []
+        trace["verifier"]["missing_citations"] = []
+    elif (
         not verdict.grounded
         and not _is_refusal(draft)
         and config.MAX_VERIFIER_RETRIES > 0
     ):
+        # Snapshot the first-pass draft + verdict so we can fall back to
+        # them if the retry produces a worse result (e.g. an empty-citation
+        # answer that the output guardrail downgrades to a refusal).
+        first_pass_draft = draft
+        first_pass_verdict = verdict
+
         t0 = time.time()
         chunks, retr_debug2 = retr.search(
-            decision.rewritten_query or question,
+            search_query or question,
             docs=docs,
             intent=decision.intent,
             k=config.RETRY_TOP_K,
@@ -203,12 +264,29 @@ def answer(
         draft, gen_debug2 = agent.generate(question, chunks)
         latency["generate_retry"] = int((time.time() - t0) * 1000)
 
+        # Re-apply the deterministic answer guard on the retry draft too.
+        draft, _ = answer_guard.maybe_correct(question, draft)
+
         # Re-apply output guardrail on the retry draft
-        draft, _ = guardrails.check_output(draft)
+        draft, retry_og_debug = guardrails.check_output(draft)
 
         t0 = time.time()
         verdict, _ = agent.verify(draft, chunks)
         latency["verify_retry"] = int((time.time() - t0) * 1000)
+
+        # If the retry was downgraded to a refusal AND the first pass had
+        # actual content + at least one citation, prefer the first pass.
+        # Returning a near-correct first-pass draft with verified=False is
+        # more useful to the user than throwing it away in favour of
+        # "The provided SDGs do not specify this." The verified flag and
+        # the warning still tell them grounding wasn't perfect.
+        retry_downgraded = retry_og_debug.get("downgraded_to_refusal")
+        if retry_downgraded and first_pass_draft.citations and not _is_refusal(first_pass_draft):
+            draft = first_pass_draft
+            verdict = first_pass_verdict
+            trace["retry_outcome"] = "preferred-first-pass"
+        else:
+            trace["retry_outcome"] = "kept-retry-result"
 
         trace["retry"] = {
             "retrieval": {
@@ -224,6 +302,7 @@ def answer(
                 "grounded": verdict.grounded,
                 "unsupported_claims": verdict.unsupported_claims,
             },
+            "output_guardrail_downgraded": retry_downgraded,
         }
 
     # ---- Step 7: build the response -----------------------------------

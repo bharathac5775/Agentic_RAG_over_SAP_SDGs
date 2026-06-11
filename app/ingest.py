@@ -298,6 +298,17 @@ def run(quick: bool = False, skip_summaries: bool = False) -> int:
             print(f"  [chunker] --quick: truncated to {len(chunks)} chunks for {doc_id}")
         chunks_by_doc[doc_id] = chunks
 
+    # Step 1b: chunk the meta-corpus (README + module docstrings) so meta
+    # questions like "what does this app do?" retrieve from real source
+    # text, not a hardcoded paragraph. See app/meta_chunker.py.
+    from app.meta_chunker import META_DOC_ID, build_meta_chunks
+    meta_chunks = build_meta_chunks()
+    if meta_chunks:
+        if quick:
+            meta_chunks = meta_chunks[:10]
+        chunks_by_doc[META_DOC_ID] = meta_chunks
+        print(f"  [meta_chunker] {len(meta_chunks)} chunks from README + module docstrings")
+
     all_chunks: list[Chunk] = []
     for cs in chunks_by_doc.values():
         all_chunks.extend(cs)

@@ -68,7 +68,45 @@ Your rules:
      EXACTLY: "The provided SDGs do not specify this." and return an empty
      citations list. Do not guess or speculate.
   4. Quote short verbatim snippets from the chunks where helpful.
-  5. Keep the answer focused — 1 to 4 sentences for typical questions.
+  5. ALWAYS write a complete sentence — never return a bare label, letter,
+     code, number, or fragment. The user is asking a question, not running
+     a table lookup. If the answer is short (a tier code, a yes/no, a
+     number, a defined term), wrap it in a self-contained sentence that
+     restates enough of the question for the answer to make sense
+     standalone. Examples (the SHAPE — these aren't real answers):
+       Q: "What letter tier?"   bad: "S"        good: "The X tier applies to <thing> because the chunks describe <range> for X."
+       Q: "Is X allowed?"       bad: "Yes"      good: "Yes, X is permitted under <clause>, which states <quote>."
+       Q: "How many days?"      bad: "30"       good: "The retention period is 30 days, per <clause>."
+     Aim for 1–3 sentences for typical questions.
+  6. SINGLE-CHUNK FOCUS. Identify the ONE chunk that most directly answers
+     the question and base the answer on it. Do not splice text from
+     other chunks unless they corroborate the same fact. If a chunk talks
+     about a different product, term, or topic than the question asks
+     about, ignore it — including it would create an unsupported claim.
+  6b. HEADING-MATCH PRIORITY. When the question names a specific term,
+     product, or feature, prefer the chunk whose section heading or
+     opening line LITERALLY matches that name. A chunk whose heading
+     reads exactly the named thing beats a chunk that merely mentions a
+     similar-sounding longer name. Example shape (illustrative only —
+     not real content):
+       Q: "What is X?"
+       Chunk A heading: "X" — defines X.
+       Chunk B heading: "X-extended-variant" — defines a related product.
+       Always cite Chunk A. The fact that Chunk B mentions X does not
+       mean it answers a question about X.
+  7. NUMERIC RANGES / THRESHOLDS. When the question contains a numeric
+     value V and the chunks describe ranges, tiers, brackets, or
+     thresholds with labels (e.g. size codes, grades, levels), proceed
+     in three explicit steps:
+       (a) List every row you can see, as "<bound> → <label>".
+       (b) Find the SMALLEST <bound> that is greater than or equal to V.
+           Do not pick a smaller bound; do not pick the next-larger row.
+       (c) Return THAT row's label. Quote both the bound AND the label
+           from the SAME row in the citation, side by side.
+     "Up to N", "less than or equal to N", and "≤ N" are all
+     upper-inclusive bounds. A row's label belongs to its own bound —
+     never to the row below or above. If the source text is ambiguous
+     about which label belongs to which bound, refuse rather than guess.
 
 Return ONE JSON object EXACTLY of this shape — no prose, no markdown, no
 code fences:
@@ -77,13 +115,18 @@ code fences:
   "answer": "<your answer>",
   "citations": [
     {
-      "doc": "<doc_title from the chunk>",
-      "section": "<section_number from the chunk, e.g. \\"1.3\\" or null>",
-      "page": <integer page_start from the chunk>,
+      "doc": "<doc_title from the chunk header — copy verbatim>",
+      "section": "<section_number from the chunk header — copy verbatim, e.g. \\"1.3\\" or \\"5.4\\". Use the empty string only if the chunk header literally has no section.>",
+      "page": <integer page_start from the chunk header>,
       "quote": "<short verbatim snippet from the chunk that backs this claim>"
     }
   ]
 }
+
+CITATION FIDELITY: every field on a citation must come VERBATIM from the
+header line of the chunk you are citing (the line that starts with
+`[N] doc=...  §...  p....`). Do not omit fields that the header has.
+Do not invent values that aren't in the header.
 
 If you cannot answer, citations MUST be an empty list [].
 """
@@ -157,15 +200,27 @@ def _validate_citations(
     knowledge. This deterministic post-check is defense-in-depth before the
     verifier even runs.
 
+    Re-anchor (instead of drop) when a citation fails the metadata match
+    but its `quote` text exists verbatim inside one of the retrieved
+    chunks. The LLM sometimes lifts a heading from inside a chunk and
+    treats it as a separate doc — quote-anchoring recovers the correct
+    reference instead of throwing away an otherwise-good citation.
+
     Returns (kept, dropped). Caller can log dropped for the trace.
     """
     # Build a set of (doc_title_lower, section_lower, page) tuples from chunks.
     valid_keys: set[tuple[str, str, int]] = set()
+    # Also keep a (doc_title_lower, page) → chunk lookup so we can repair
+    # citations whose `section` is empty/null by copying it from the chunk.
+    chunk_by_doc_page: dict[tuple[str, int], Chunk] = {}
     for c in chunks:
         section_key = (c.section_number or "").strip().lower().lstrip("§")
         # Allow citations to land anywhere in the chunk's page range.
         for page in range(c.page_start, c.page_end + 1):
             valid_keys.add((c.doc_title.strip().lower(), section_key, page))
+            # Last-write-wins is fine; chunks rarely overlap on a single
+            # (doc, page) when there's a real section to attach.
+            chunk_by_doc_page[(c.doc_title.strip().lower(), page)] = c
 
     kept: list[Citation] = []
     dropped: list[Citation] = []
@@ -180,9 +235,38 @@ def _validate_citations(
             doc_page_keys = {(d, p) for (d, _s, p) in valid_keys}
             match = (cite.doc.strip().lower(), cite.page) in doc_page_keys
         if match:
+            # Repair an empty/null section from the chunk metadata. The
+            # LLM sometimes returns section=null even when the chunk
+            # header has a real section number; this puts it back. Never
+            # overwrites a non-empty section the LLM provided.
+            if not (cite.section or "").strip():
+                anchor = chunk_by_doc_page.get((cite.doc.strip().lower(), cite.page))
+                if anchor is not None and (anchor.section_number or "").strip():
+                    try:
+                        cite = cite.model_copy(update={"section": anchor.section_number})
+                    except ValidationError:
+                        pass
             kept.append(cite)
-        else:
-            dropped.append(cite)
+            continue
+        # Last resort: quote-based re-anchor. If the LLM's quote really
+        # came from one of the retrieved chunks, rebuild the citation
+        # against THAT chunk's metadata. This catches the failure mode
+        # where the LLM hallucinates a doc title or section number but
+        # quoted accurately from the retrieved context.
+        anchor = _find_chunk_containing_quote(cite.quote or "", chunks)
+        if anchor is not None:
+            try:
+                rebuilt = Citation(
+                    doc=anchor.doc_title,
+                    section=anchor.section_number,
+                    page=anchor.page_start,
+                    quote=cite.quote,
+                )
+                kept.append(rebuilt)
+                continue
+            except ValidationError:
+                pass
+        dropped.append(cite)
     return kept, dropped
 
 
@@ -203,6 +287,153 @@ def _ungrounded_verdict(reason: str) -> VerifierVerdict:
         unsupported_claims=[reason],
         missing_citations=[],
     )
+
+
+def _salvage_partial_answer(
+    parsed: object,
+    _error: ValidationError,
+    chunks: list[Chunk] | None = None,
+) -> GeneratedAnswer | None:
+    """Try to recover a usable GeneratedAnswer from a partially-valid LLM
+    response. The most common failure mode on small local models is that
+    the answer text is fine but one or more citation objects fail schema
+    validation (e.g. `page=null`, missing `quote`, wrong types).
+
+    Strategy:
+      1. Keep the answer text (must be a non-empty string).
+      2. For each citation object, try to validate. If it fails AND
+         `chunks` is provided, try to REPAIR by looking up the chunk the
+         LLM was pointing at (via doc_title + section_number) and
+         filling in the page / quote from real metadata. This is purely
+         restorative — it never invents data.
+      3. Drop any citation we can neither validate nor repair.
+      4. If we cannot keep at least the answer text, return None.
+
+    Generic — does not encode which field is broken. Restores any field
+    the schema needs as long as we can identify the source chunk.
+    """
+    if not isinstance(parsed, dict):
+        return None
+    raw_answer = parsed.get("answer")
+    if not isinstance(raw_answer, str) or not raw_answer.strip():
+        return None
+    raw_citations = parsed.get("citations") or []
+    if not isinstance(raw_citations, list):
+        raw_citations = []
+
+    salvaged_citations: list[Citation] = []
+    for cite in raw_citations:
+        if not isinstance(cite, dict):
+            continue
+        try:
+            salvaged_citations.append(Citation.model_validate(cite))
+            continue
+        except ValidationError:
+            pass
+        # Try to repair from the retrieved chunks.
+        repaired = _repair_citation_from_chunk(cite, chunks or [])
+        if repaired is not None:
+            salvaged_citations.append(repaired)
+
+    try:
+        return GeneratedAnswer.model_validate({
+            "answer": raw_answer,
+            "citations": salvaged_citations,
+        })
+    except ValidationError:
+        return None
+
+
+def _repair_citation_from_chunk(
+    cite: dict, chunks: list[Chunk]
+) -> Citation | None:
+    """Try to rebuild a Citation by matching the LLM's (doc, section) pair
+    against a retrieved chunk and pulling missing fields (page, quote)
+    from that chunk's real metadata. If the (doc, section) lookup fails,
+    fall back to a quote-based match: if the LLM's quoted text appears
+    verbatim (or near-verbatim) inside any retrieved chunk's body, anchor
+    the citation to THAT chunk. Returns the repaired Citation or None.
+
+    No invention: every field comes either from the LLM's own output
+    (when valid) or from the actual chunk metadata. The defense-in-depth
+    `_validate_citations` step still runs after this.
+    """
+    doc_raw = (cite.get("doc") or "").strip().lower()
+    section_raw = (cite.get("section") or "")
+    if section_raw is None:
+        section_raw = ""
+    section_key = str(section_raw).strip().lower().lstrip("§")
+
+    # Pass 1: exact (doc_title, section_number) match.
+    for c in chunks:
+        if c.doc_title.strip().lower() != doc_raw:
+            continue
+        chunk_section_key = (c.section_number or "").strip().lower().lstrip("§")
+        if chunk_section_key != section_key:
+            continue
+        return _build_citation(cite, c)
+
+    # Pass 2: quote-based re-anchor. The LLM sometimes invents a doc title
+    # (e.g. lifts a heading from inside one chunk and treats it as a
+    # separate document). If the LLM's quoted text exists inside one of
+    # our retrieved chunks, anchor on THAT chunk and ignore the LLM's
+    # bogus (doc, section) pair.
+    quote_raw = cite.get("quote")
+    if isinstance(quote_raw, str) and len(quote_raw.strip()) >= 30:
+        anchor = _find_chunk_containing_quote(quote_raw, chunks)
+        if anchor is not None:
+            return _build_citation(cite, anchor)
+    return None
+
+
+def _build_citation(cite: dict, chunk: Chunk) -> Citation | None:
+    """Construct a Citation by preferring valid LLM-provided fields and
+    falling back to the chunk's metadata for anything missing/invalid.
+    """
+    page = cite.get("page")
+    if not isinstance(page, int) or page < 1:
+        page = chunk.page_start
+    quote = cite.get("quote")
+    if not isinstance(quote, str) or not quote.strip():
+        quote = chunk.text.strip()[:240]
+    try:
+        return Citation(
+            doc=chunk.doc_title,
+            section=chunk.section_number,
+            page=page,
+            quote=quote,
+        )
+    except ValidationError:
+        return None
+
+
+def _find_chunk_containing_quote(
+    quote: str, chunks: list[Chunk]
+) -> Chunk | None:
+    """Return the first chunk whose text contains the quote (or a
+    substantial substring of it). Used to re-anchor citations when the
+    LLM names a doc that doesn't exist in our index but the quoted text
+    actually came from one of our retrieved chunks.
+
+    Generic substring match: normalises whitespace and tries several
+    progressively-shorter prefixes of the quote (full, then 80 chars,
+    60 chars, 40 chars). 30 chars is the minimum — anything shorter
+    could match by chance.
+    """
+    needle_full = " ".join(quote.split())
+    if len(needle_full) < 30:
+        return None
+    candidates: list[str] = [needle_full]
+    for n in (120, 80, 60, 40):
+        if len(needle_full) > n:
+            candidates.append(needle_full[:n])
+    for c in chunks:
+        haystack = " ".join((c.text or "").split())
+        haystack_lower = haystack.lower()
+        for needle in candidates:
+            if needle.lower() in haystack_lower:
+                return c
+    return None
 
 
 # ===========================================================================
@@ -269,7 +500,8 @@ def generate(
     try:
         parsed = json.loads(raw)
         answer = GeneratedAnswer.model_validate(parsed)
-    except (json.JSONDecodeError, ValidationError) as e:
+    except json.JSONDecodeError as e:
+        # Malformed JSON — can't recover, retry or fall back.
         if _retries_left > 0:
             inner_answer, inner_debug = generate(question, chunks, _retries_left=0)
             inner_debug["retries_used"] = 1 + inner_debug.get("retries_used", 0)
@@ -277,6 +509,27 @@ def generate(
         debug["fallback_used"] = True
         debug["raw_response"] = f"{raw} | parse error: {e}"
         return _refusal_answer(), debug
+    except ValidationError as e:
+        # JSON parsed, but the schema rejected it. The most common cause
+        # (observed on llama3.1:8b) is one or more malformed citation
+        # objects: e.g. `page=null`, missing `quote`, or wrong types. The
+        # answer text itself is usually fine. Try to salvage: keep the
+        # answer text, drop only the citation objects that fail to
+        # validate. If even that fails, retry / fall back.
+        salvaged = _salvage_partial_answer(parsed, e, chunks=chunks)
+        if salvaged is not None:
+            debug["raw_response"] = (
+                f"{raw} | salvaged after validation error on citations: {e}"
+            )
+            answer = salvaged
+        elif _retries_left > 0:
+            inner_answer, inner_debug = generate(question, chunks, _retries_left=0)
+            inner_debug["retries_used"] = 1 + inner_debug.get("retries_used", 0)
+            return inner_answer, inner_debug
+        else:
+            debug["fallback_used"] = True
+            debug["raw_response"] = f"{raw} | parse error: {e}"
+            return _refusal_answer(), debug
 
     # Defense-in-depth: drop invented citations BEFORE returning.
     kept, dropped = _validate_citations(answer.citations, chunks)

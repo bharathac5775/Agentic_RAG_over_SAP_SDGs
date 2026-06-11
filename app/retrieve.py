@@ -34,6 +34,7 @@ Loading:
 from __future__ import annotations
 
 import pickle
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -162,9 +163,15 @@ class Retriever:
                 bm25_weight=w_bm25, vector_weight=w_vec,
             )
 
-        # Filter: None or "all 3 docs" both mean no filter.
-        all_ids = set(config.PRODUCT_DOCS["all"])
-        if docs is None or set(docs) >= all_ids:
+        # Filter: None means "search every chunk in the index". A non-None
+        # `docs` list means "restrict to exactly these doc_ids". The
+        # filter is ALWAYS applied when docs is provided — we used to
+        # short-circuit "docs == all SDG docs" to None, but that
+        # accidentally allowed meta-corpus chunks (README + module
+        # docstrings) to leak into normal SDG queries. The pipeline now
+        # explicitly opts INTO meta_about_system when it wants meta
+        # answers; everywhere else, a meta chunk must never appear.
+        if docs is None:
             filter_set: set[str] | None = None
         else:
             filter_set = set(docs)
@@ -203,14 +210,45 @@ class Retriever:
 
         # 5. select top-k by merged score
         top_ids = sorted(merged_scores.keys(), key=lambda c: -merged_scores[c])[:k]
+
+        # 5b. heading-anchor boost. RRF buries short canonical clauses (e.g. a
+        #     ~50-token "99.9% SLA Eligibility" header chunk) underneath
+        #     longer per-product mentions of the same term. For
+        #     definition/specific_clause questions, find any chunk whose
+        #     heading region contains a distinctive multi-token phrase from
+        #     the query verbatim, and promote it to the top of the result.
+        #     Generic — no domain-specific tokens. Triggers ONLY when the
+        #     question genuinely names something specific; falls back to
+        #     RRF-only otherwise.
+        anchored_ids: list[str] = []
+        if intent in ("definition", "specific_clause"):
+            anchored_ids = self._heading_anchor_matches(
+                query, filter_set=filter_set, exclude=set(top_ids),
+            )
+
+        # Combine: anchored matches first (highest score), then RRF top-k,
+        # de-duplicating. Cap at k.
+        boost_score = max(merged_scores.values(), default=0.0) + 1.0
+        ordered_ids: list[str] = []
+        seen_ids: set[str] = set()
+        for cid in anchored_ids + top_ids:
+            if cid in seen_ids:
+                continue
+            seen_ids.add(cid)
+            ordered_ids.append(cid)
+            if len(ordered_ids) >= k:
+                break
+
         top_chunks: list[Chunk] = []
-        for cid in top_ids:
+        for cid in ordered_ids:
             chunk = self.chunks_by_id.get(cid)
             if chunk is None:
                 continue
+            score = merged_scores.get(cid, boost_score) if cid not in anchored_ids \
+                else boost_score
             # Build a copy with the score+ranks set (don't mutate the cached chunk).
             top_chunks.append(chunk.model_copy(update={
-                "score": merged_scores[cid],
+                "score": score,
                 "rank_bm25": bm25_rank_map.get(cid),
                 "rank_vector": vec_rank_map.get(cid),
             }))
@@ -257,6 +295,67 @@ class Retriever:
         ranked.sort(key=lambda p: -p[0])
         return [cid for _score, cid in ranked[:top_k]]
 
+    # -- Heading-anchor boost ---------------------------------------------
+
+    def _heading_anchor_matches(
+        self,
+        query: str,
+        *,
+        filter_set: set[str] | None,
+        exclude: set[str],
+    ) -> list[str]:
+        """Find chunks whose `section_title` (the canonical short heading
+        each chunk carries from the structural pass of the chunker)
+        contains a distinctive multi-token phrase from `query`. Returns
+        the matching chunk_ids in priority order: exact title-equals
+        first, then title-contains, ties broken by chunk size (shorter
+        first — short clauses tend to be canonical definitions).
+
+        Generic — no domain tokens. A phrase qualifies as "distinctive"
+        when it is 2+ consecutive non-stopword tokens; single-token
+        phrases are NOT used for the heading-anchor boost (too noisy
+        — every product mentions "tenant" or "subscription").
+
+        Why `section_title` instead of "first 80 chars of body": every
+        per-product entry begins with "Cloud Service Eligible for: …"
+        which would make every eligibility row match for a query about
+        "99.9% SLA". The chunker assigns a tighter `section_title`
+        (e.g. "99.9% SLA Eligibility" for §2.6), which is what we want
+        to anchor on.
+
+        Returns at most 5 chunk_ids — heading-anchor matches are
+        meant to be a high-signal handful, not a flood.
+        """
+        # Use only multi-token phrases for heading-anchoring to avoid
+        # over-matching on common single tokens.
+        phrases = [p for p in _distinctive_phrases(query) if " " in p]
+        if not phrases:
+            return []
+
+        title_eq: list[tuple[int, str]] = []   # exact phrase == title
+        title_in: list[tuple[int, str]] = []   # phrase appears inside title
+        for c in self.chunks:
+            if filter_set is not None and c.doc_id not in filter_set:
+                continue
+            if c.chunk_id in exclude:
+                continue
+            title = (c.section_title or "").strip().lower()
+            if not title:
+                continue
+            size = len(c.text or "")
+            for p in phrases:
+                if p == title:
+                    title_eq.append((size, c.chunk_id))
+                    break
+                if p in title:
+                    title_in.append((size, c.chunk_id))
+                    break
+        title_eq.sort()
+        title_in.sort()
+        ordered = [cid for _s, cid in title_eq] + [cid for _s, cid in title_in]
+        # Keep the boost narrow — at most 5 hand-picked anchors.
+        return ordered[:5]
+
     # -- Vector (Chroma) --------------------------------------------------
 
     def _vector_search(
@@ -291,9 +390,80 @@ class Retriever:
 
 
 # ---------------------------------------------------------------------------
+# Distinctive-phrase extraction (used by heading-anchor boost)
+# ---------------------------------------------------------------------------
+
+
+# Stopwords filtered out before phrase building. Conservative list — we
+# want to keep most content words (including SAP-specific tokens) and
+# drop only true filler. Apostrophe-form contractions covered by the
+# tokenizer's lower-cased output.
+_PHRASE_STOPWORDS: set[str] = {
+    "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
+    "of", "in", "on", "at", "by", "to", "for", "with", "from", "as",
+    "and", "or", "but", "if", "then", "than", "so",
+    "it", "its", "this", "that", "these", "those",
+    "what", "which", "who", "whom", "whose", "where", "when", "why", "how",
+    "do", "does", "did", "can", "could", "should", "would", "may", "might",
+    "have", "has", "had", "i", "you", "he", "she", "we", "they",
+    "me", "us", "them", "my", "your", "our", "their",
+    "not", "no", "yes",
+    "any", "all", "some", "each", "every", "more", "most", "other",
+    "available", "purchase", "purchased",
+}
+
+# Token regex matches sequences of letters/digits, plus internal punctuation
+# common in SDG vocab (slash, hyphen, period for "99.9", "%", "S/4HANA").
+_PHRASE_TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9'/\-.%]*[A-Za-z0-9%]|[A-Za-z]")
+
+
+def _distinctive_phrases(query: str) -> list[str]:
+    """Build a list of distinctive multi-token phrases from `query` for
+    heading-anchor matching. A phrase is two or more consecutive
+    non-stopword tokens (lower-cased). A single long non-stopword token
+    (length ≥ 5) also qualifies on its own — that catches "Tenant",
+    "Active" wouldn't but "ActiveUser"-style merged terms would.
+
+    Empty result is fine: the caller treats it as "no boost".
+    """
+    raw_tokens = _PHRASE_TOKEN_RE.findall(query)
+    # Lower-case but PRESERVE the token; stopword check uses lower-cased form.
+    tokens = [t.lower() for t in raw_tokens]
+    if not tokens:
+        return []
+
+    phrases: list[str] = []
+    # 1) consecutive runs of 2+ non-stopword tokens
+    run: list[str] = []
+    for tok in tokens:
+        if tok in _PHRASE_STOPWORDS or len(tok) < 2:
+            if len(run) >= 2:
+                phrases.append(" ".join(run))
+            run = []
+        else:
+            run.append(tok)
+    if len(run) >= 2:
+        phrases.append(" ".join(run))
+
+    # 2) single distinctive tokens (length ≥ 5, non-stopword) as one-word phrases
+    for tok in tokens:
+        if len(tok) >= 5 and tok not in _PHRASE_STOPWORDS:
+            phrases.append(tok)
+
+    # De-dup while preserving order; cap to keep matching cheap.
+    seen: set[str] = set()
+    out: list[str] = []
+    for p in phrases:
+        if p in seen:
+            continue
+        seen.add(p)
+        out.append(p)
+    return out[:8]
+
+
+# ---------------------------------------------------------------------------
 # Module-level singleton accessor
 # ---------------------------------------------------------------------------
-#
 # FastAPI's startup hook will call get_retriever() once. Anything else that
 # wants a retriever (eval scripts, the CLI sanity tool) can import this and
 # get the same instance — avoids re-loading 10 MB of pickle on every call.

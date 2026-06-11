@@ -83,7 +83,7 @@ VECTOR_TOP_K = 25                    # before fusion (mirrors BM25 for symmetry)
 RRF_K = 60                           # reciprocal rank fusion constant (standard)
 FINAL_TOP_K = 5                      # what we send to the generator
 COMPARISON_TOP_K = 8                 # bumped for cross-product comparison queries
-RETRY_TOP_K = 10                     # if verifier rejects, retry with broader retrieval
+RETRY_TOP_K = 12                     # if verifier rejects, retry with broader retrieval
 
 # Why BM25_TOP_K=25 not 20: empirical finding from Phase 2. Short canonical
 # defined-term chunks (e.g. §1.2 "Active User" — only ~12 tokens) sit at
@@ -117,6 +117,7 @@ DOC_TITLES = {
     "rise_s4hana_private": "RISE with SAP S/4HANA Cloud, Private Edition",
     "sap_cloud_erp_private": "SAP Cloud ERP Private, RISE",
     "sap_erp_pce": "SAP ERP, private cloud edition",
+    "meta_about_system": "Agentic RAG over SAP SDGs — System Description",
 }
 
 # Product family mapping — the router decides on (product, intent), and this
@@ -126,6 +127,7 @@ DOC_TITLES = {
 PRODUCT_DOCS = {
     "rise_family": ["rise_s4hana_private", "sap_cloud_erp_private"],
     "sap_erp_pce": ["sap_erp_pce"],
+    "meta_about_system": ["meta_about_system"],
     "all": ["rise_s4hana_private", "sap_cloud_erp_private", "sap_erp_pce"],
 }
 

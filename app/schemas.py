@@ -133,7 +133,7 @@ class GuardrailDecision(BaseModel):
 # ---- Step 1: router + rewriter ---------------------------------------------
 
 
-ProductFamily = Literal["rise_family", "sap_erp_pce", "all"]
+ProductFamily = Literal["rise_family", "sap_erp_pce", "meta_about_system", "all"]
 QueryIntent = Literal["definition", "specific_clause", "comparison", "general"]
 
 
