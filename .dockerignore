@@ -1,0 +1,51 @@
+# =============================================================================
+# Files NOT copied into the build context. Keeps the image small and
+# avoids leaking local secrets.
+# =============================================================================
+
+# Python build artefacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local virtualenvs (the image installs into /opt/venv)
+.venv/
+venv/
+env/
+
+# Local secrets — image must not bake these in
+.env
+*.key
+
+# Build outputs that should be regenerated inside the container or
+# bind-mounted from the host
+index/                 # rebuilt by `python -m app.ingest`
+*.pkl
+
+# IDE/editor noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Git metadata — we don't need .git inside the image
+.git/
+.gitignore
+
+# Container files themselves don't need to ship inside the image
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Local eval outputs (the canonical scorecard lives in eval/SCORECARD.md
+# which IS shipped; per-row results.json is regenerated)
+eval/results.json
+
+# Misc local clutter
+*.log
+*.tmp
+.cache/

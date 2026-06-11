@@ -1,0 +1,83 @@
+
+services:
+
+  # -------------------------------------------------------------------------
+  # The FastAPI app — same image, two configurations.
+  # -------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: agentic-rag:latest
+    container_name: agentic-rag
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # Source PDFs — read-only inside the container
+      - ./Data:/app/Data:ro
+      # Index — writeable so `python -m app.ingest` persists
+      - ./index:/app/index
+    env_file:
+      # Optional. Created from .env.example. Gitignored.
+      - path: .env
+        required: false
+    profiles: ["host-ollama", "with-ollama"]
+
+  # -------------------------------------------------------------------------
+  # Profile-specific overrides.
+  # -------------------------------------------------------------------------
+  app-host-ollama:
+    extends:
+      service: app
+    profiles: ["host-ollama"]
+    environment:
+      # Mac/Windows Docker Desktop maps `host.docker.internal` to the host.
+      # On Linux you may need: --add-host=host.docker.internal:host-gateway
+      OLLAMA_HOST: "http://host.docker.internal:11434"
+    extra_hosts:
+      # Make `host.docker.internal` resolvable on Linux too. No-op on Mac.
+      - "host.docker.internal:host-gateway"
+
+  app-with-ollama:
+    extends:
+      service: app
+    profiles: ["with-ollama"]
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------------
+  # Optional: Ollama as a sibling container.
+  # -------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: agentic-rag-ollama
+    restart: unless-stopped
+    ports:
+      # Exposed so you can `curl http://localhost:11434/api/tags` from the
+      # host while debugging. Remove this `ports` block in production.
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    profiles: ["with-ollama"]
+    # Uncomment for NVIDIA GPU passthrough (Linux + nvidia-container-toolkit).
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  ollama_models:
+    name: agentic-rag-ollama-models
