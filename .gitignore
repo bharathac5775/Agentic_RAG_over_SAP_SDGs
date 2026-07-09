@@ -27,3 +27,19 @@ env/
 
 # OS
 Thumbs.db
+
+# graphify: keep portable artifacts, exclude regeneration-only ones.
+# Ignore everything under graphify-out/ by default...
+graphify-out/**
+# ...then re-include the portable pieces:
+!graphify-out/graph.json
+!graphify-out/GRAPH_REPORT.md
+!graphify-out/graph.html
+!graphify-out/manifest.json
+!graphify-out/.aux_for_vault.json
+!graphify-out/.graphify_*
+# dated snapshot subfolders (e.g. graphify-out/2026-06-21/) — un-ignore the
+# directory and its contents. The dir itself must be un-ignored first, or
+# git won't descend into it to see the files.
+!graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+!graphify-out/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/**

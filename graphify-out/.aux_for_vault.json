@@ -1,0 +1,4583 @@
+{
+  "communities": {
+    "37": [
+      [
+        "app_init",
+        "__init__.py",
+        "code",
+        "app/__init__.py"
+      ]
+    ],
+    "5": [
+      [
+        "app_agent",
+        "agent.py",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_format_chunks_for_prompt",
+        "_format_chunks_for_prompt()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_py_chunk",
+        "Chunk",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_validate_citations",
+        "_validate_citations()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "citation",
+        "Citation",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_refusal_answer",
+        "_refusal_answer()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_py_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_grounded_verdict",
+        "_grounded_verdict()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_py_verifierverdict",
+        "VerifierVerdict",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_ungrounded_verdict",
+        "_ungrounded_verdict()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_salvage_partial_answer",
+        "_salvage_partial_answer()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "validationerror",
+        "ValidationError",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_repair_citation_from_chunk",
+        "_repair_citation_from_chunk()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_build_citation",
+        "_build_citation()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_find_chunk_containing_quote",
+        "_find_chunk_containing_quote()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_generate",
+        "generate()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_py_any",
+        "Any",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_verify",
+        "verify()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_cli",
+        "_cli()",
+        "code",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_1",
+        "Phase 4 — answer generation and self-check verification.  Two public functions,",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_169",
+        "Render chunks as a numbered block for the LLM prompt.      Format:         [1] d",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_196",
+        "Drop citations that don't correspond to a real retrieved chunk.      A valid cit",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_297",
+        "Try to recover a usable GeneratedAnswer from a partially-valid LLM     response.",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_350",
+        "Try to rebuild a Citation by matching the LLM's (doc, section) pair     against",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_390",
+        "Construct a Citation by preferring valid LLM-provided fields and     falling bac",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_413",
+        "Return the first chunk whose text contains the quote (or a     substantial subst",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_450",
+        "Generate an answer from the retrieved chunks.      Returns:         (answer, deb",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_553",
+        "Verify that the generated answer is grounded in the retrieved chunks.      Retur",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_agent_rationale_626",
+        "Demo: end-to-end route + retrieve + generate + verify for one question.",
+        "rationale",
+        "app/agent.py"
+      ],
+      [
+        "app_schemas_verifierverdict",
+        "VerifierVerdict",
+        "code",
+        "app/schemas.py"
+      ]
+    ],
+    "8": [
+      [
+        "app_answer_guard",
+        "answer_guard.py",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_match",
+        "_Match",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_maybe_correct",
+        "maybe_correct()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_py_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_extract_number_unit_pairs",
+        "_extract_number_unit_pairs()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_parse_number",
+        "_parse_number()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_smallest_bound_containing",
+        "_smallest_bound_containing()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_label_after_bound",
+        "_label_after_bound()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_extract_claimed_label",
+        "_extract_claimed_label()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_phrase_as_sentence",
+        "_phrase_as_sentence()",
+        "code",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_1",
+        "Quote-anchored deterministic answer guard.  Generic post-process for the generat",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_75",
+        "Internal record: a bound found in a quote and the label adjacent to it.",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_94",
+        "If the LLM mis-labelled a numeric threshold answer, fix it from the     retrieve",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_237",
+        "Pull every (numeric value, unit-word) pair out of the question.      \"what is th",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_268",
+        "Find the smallest \"Up to M / ≤ M / less than M\" bound in the quote     where M >",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_292",
+        "Return the first label-shaped token that appears AFTER the bound's     span (wit",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_313",
+        "Try to find what label the LLM is currently claiming, given that     `expected`",
+        "rationale",
+        "app/answer_guard.py"
+      ],
+      [
+        "app_answer_guard_rationale_394",
+        "Use the small model to wrap `label` in a complete sentence that     answers `que",
+        "rationale",
+        "app/answer_guard.py"
+      ]
+    ],
+    "0": [
+      [
+        "app_api",
+        "api.py",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_lifespan",
+        "lifespan()",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "fastapi",
+        "FastAPI",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_health",
+        "health()",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "healthresponse",
+        "HealthResponse",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_query",
+        "query()",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "queryrequest",
+        "QueryRequest",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_py_queryresponse",
+        "QueryResponse",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_root",
+        "root()",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_py_any",
+        "Any",
+        "code",
+        "app/api.py"
+      ],
+      [
+        "app_api_rationale_1",
+        "FastAPI surface for the Agentic RAG system.  Three endpoints:     GET  /health",
+        "rationale",
+        "app/api.py"
+      ],
+      [
+        "app_api_rationale_61",
+        "Probe whether the system is ready to serve queries.      Checks (cheap, ~50ms to",
+        "rationale",
+        "app/api.py"
+      ],
+      [
+        "app_api_rationale_128",
+        "Answer a natural-language question about SAP Service Description Guides.      Fl",
+        "rationale",
+        "app/api.py"
+      ],
+      [
+        "app_schemas",
+        "schemas.py",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_queryrequest",
+        "QueryRequest",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "basemodel",
+        "BaseModel",
+        "code",
+        ""
+      ],
+      [
+        "app_schemas_healthresponse",
+        "HealthResponse",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_queryresponse",
+        "QueryResponse",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_rationale_1",
+        "All Pydantic models in one place.  These are the contracts between pipeline stag",
+        "rationale",
+        "app/schemas.py"
+      ],
+      [
+        "eval_run_eval",
+        "run_eval.py",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_evalrow",
+        "EvalRow",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_grade",
+        "_grade()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_py_queryresponse",
+        "QueryResponse",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_mark",
+        "_mark()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_print_per_row",
+        "_print_per_row()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_print_aggregates",
+        "_print_aggregates()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_load_eval_set",
+        "_load_eval_set()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_py_path",
+        "Path",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_py_any",
+        "Any",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_run",
+        "run()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_main",
+        "main()",
+        "code",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_rationale_1",
+        "Run the eval harness and print a scorecard.  Usage:     python -m eval.run_eval",
+        "rationale",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_rationale_92",
+        "Mutate `row` with observed values + boolean grades. Returns the row.",
+        "rationale",
+        "eval/run_eval.py"
+      ],
+      [
+        "eval_run_eval_rationale_168",
+        "Compact table: one line per row, columns for each grade.",
+        "rationale",
+        "eval/run_eval.py"
+      ],
+      [
+        "tests_test_api",
+        "test_api.py",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_client",
+        "client()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testhealth",
+        "TestHealth",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testhealth_test_health_returns_valid_shape",
+        ".test_health_returns_valid_shape()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testhealth_test_health_reports_degraded_when_ollama_unreachable",
+        ".test_health_reports_degraded_when_ollama_unreachable()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery",
+        "TestQuery",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery_test_query_returns_valid_response",
+        ".test_query_returns_valid_response()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery_test_query_with_debug_returns_trace",
+        ".test_query_with_debug_returns_trace()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery_test_query_refusal_returns_refused_true",
+        ".test_query_refusal_returns_refused_true()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery_test_query_validates_input",
+        ".test_query_validates_input()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testquery_test_query_rejects_question_too_long",
+        ".test_query_rejects_question_too_long()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testmeta",
+        "TestMeta",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testmeta_test_root_returns_self_description",
+        ".test_root_returns_self_description()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testmeta_test_openapi_schema_is_generated",
+        ".test_openapi_schema_is_generated()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_testmeta_test_swagger_ui_is_served",
+        ".test_swagger_ui_is_served()",
+        "code",
+        "tests/test_api.py"
+      ],
+      [
+        "tests_test_api_rationale_1",
+        "Phase 6 FastAPI surface tests.  Uses FastAPI's TestClient — no real server, no r",
+        "rationale",
+        "tests/test_api.py"
+      ]
+    ],
+    "3": [
+      [
+        "app_chunker",
+        "chunker.py",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_sectionunit",
+        "_SectionUnit",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_extract_clean_text",
+        "_extract_clean_text()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_py_path",
+        "Path",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_build_page_offset_table",
+        "_build_page_offset_table()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_page_for_offset",
+        "_page_for_offset()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_split_numbered",
+        "_split_numbered()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_derive_section_title",
+        "_derive_section_title()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_split_all_caps",
+        "_split_all_caps()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_split_fixed_windows",
+        "_split_fixed_windows()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_pack_section",
+        "_pack_section()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_py_chunk",
+        "Chunk",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_split_into_paragraphs",
+        "_split_into_paragraphs()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_split_long_paragraph",
+        "_split_long_paragraph()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_last_sentence",
+        "_last_sentence()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_page_range",
+        "_page_range()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_chunk_pdf",
+        "chunk_pdf()",
+        "code",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_1",
+        "Structure-aware chunking for SAP Service Description Guide PDFs.  Pipeline (per",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_113",
+        "Intermediate result of pass 1 (structural split).      `text` may contain `[[PAG",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_137",
+        "Read a PDF and return its text body with header/footer banners stripped     and",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_172",
+        "Returns [(char_offset, page_number), ...] sorted by char_offset.      Used to an",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_180",
+        "Return the page number for a character offset. O(log N) via bisect.",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_197",
+        "Split text on numbered headings like '1.', '1.3.', '2.4.1.'.      Critical: the",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_279",
+        "Pull a human-readable title out of a section body.      Strategy:       1. Strip",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_310",
+        "Fallback for PDFs without numbered sections. Detect lines that are     mostly up",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_351",
+        "Used when neither numbered nor caps headings produced enough sections.     Split",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_396",
+        "Take one section unit and produce 1+ Chunk objects.      Splits the section text",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_499",
+        "Split `text` on blank lines. Returns [(para_text, start, end), ...]     where of",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_516",
+        "Split an over-long paragraph at sentence boundaries until each piece     fits ha",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_542",
+        "Return roughly the last sentence of `text`, capped at max_chars,     suitable fo",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_562",
+        "Determine (page_start, page_end) for a chunk.      Two information sources are c",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "app_chunker_rationale_588",
+        "Top-level entry point. Returns all chunks for one PDF.      Strategy precedence:",
+        "rationale",
+        "app/chunker.py"
+      ],
+      [
+        "tests_test_chunker",
+        "test_chunker.py",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_chunks_for_cloud_erp",
+        "chunks_for_cloud_erp()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_section_1_3_body_contains_defined_term",
+        "test_section_1_3_body_contains_defined_term()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_top_level_section_numbers_are_bounded",
+        "test_top_level_section_numbers_are_bounded()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_chunk_ids_are_unique",
+        "test_chunk_ids_are_unique()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_pages_progress_through_document",
+        "test_pages_progress_through_document()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_no_chunk_has_zero_or_negative_pages",
+        "test_no_chunk_has_zero_or_negative_pages()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_chunk_sizes_are_in_range",
+        "test_chunk_sizes_are_in_range()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_test_unnumbered_pdf_uses_fallback_strategy",
+        "test_unnumbered_pdf_uses_fallback_strategy()",
+        "code",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_1",
+        "Phase 1 chunker correctness tests.  These pin down the expected behavior on real",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_24",
+        "The largest, most-structured PDF — used for most assertions.",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_36",
+        "§1.3 body must include the full definition prose, not just the trailing     frag",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_58",
+        "Real top-level section numbers in this SDG go up to ~30. Anything     above that",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_81",
+        "Chunks should walk through the doc — late chunks should be on late     pages. If",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_105",
+        "No chunks should be useless runts (< 15 chars — those are zero-info     leftover",
+        "rationale",
+        "tests/test_chunker.py"
+      ],
+      [
+        "tests_test_chunker_rationale_121",
+        "The 'SAP ERP, private cloud edition.pdf' lacks numbered structure.     The chunk",
+        "rationale",
+        "tests/test_chunker.py"
+      ]
+    ],
+    "24": [
+      [
+        "app_config",
+        "config.py",
+        "code",
+        "app/config.py"
+      ],
+      [
+        "app_config_rationale_1",
+        "Central configuration for the Agentic RAG pipeline.  Single source of truth for:",
+        "rationale",
+        "app/config.py"
+      ],
+      [
+        "app_retrieve",
+        "retrieve.py",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_distinctive_phrases",
+        "_distinctive_phrases()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_1",
+        "Hybrid retrieval over the SDG index.  Two retrievers run in parallel for every q",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_421",
+        "Build a list of distinctive multi-token phrases from `query` for     heading-anc",
+        "rationale",
+        "app/retrieve.py"
+      ]
+    ],
+    "19": [
+      [
+        "app_guardrails",
+        "guardrails.py",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_is_meta_question",
+        "is_meta_question()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_stage1_classify",
+        "_stage1_classify()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "guardrailcategory",
+        "GuardrailCategory",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_stage2_classify",
+        "_stage2_classify()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_classify_input",
+        "classify_input()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_py_guardraildecision",
+        "GuardrailDecision",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_cli",
+        "_cli()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_1",
+        "Phase 5 — Input and output guardrails.  INPUT (classify_input): runs BEFORE the",
+        "rationale",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_222",
+        "Return True if `question` is asking about THIS system rather than     the SDGs (",
+        "rationale",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_303",
+        "Run regex rules in order; return (category, refusal_message_or_None).      Retur",
+        "rationale",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_365",
+        "Last-ditch LLM classification for ambiguous queries. Returns the same     shape",
+        "rationale",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_400",
+        "Decide whether the user's question is in-scope for this system.      Returns:",
+        "rationale",
+        "app/guardrails.py"
+      ]
+    ],
+    "4": [
+      [
+        "app_guardrails_py_any",
+        "Any",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_check_output",
+        "check_output()",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_py_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "app/guardrails.py"
+      ],
+      [
+        "app_guardrails_rationale_446",
+        "Apply cheap deterministic checks to the generator's output.      Catches three f",
+        "rationale",
+        "app/guardrails.py"
+      ],
+      [
+        "app_retrieve_retrievaldebug",
+        "RetrievalDebug",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_57",
+        "Per-query trace for the /query?debug=true response.",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_schemas_citation",
+        "Citation",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_guardraildecision",
+        "GuardrailDecision",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_routedecision",
+        "RouteDecision",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic",
+        "TestVerifyLogic",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic_test_grounded_answer_passes",
+        ".test_grounded_answer_passes()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic_test_ungrounded_answer_flags_claims",
+        ".test_ungrounded_answer_flags_claims()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic_test_refusal_skips_llm_and_returns_grounded",
+        ".test_refusal_skips_llm_and_returns_grounded()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic_test_ollama_exception_triggers_retry_then_ungrounded",
+        ".test_ollama_exception_triggers_retry_then_ungrounded()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail",
+        "TestOutputGuardrail",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail_test_grounded_answer_passes",
+        ".test_grounded_answer_passes()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail_test_refusal_passes_untouched",
+        ".test_refusal_passes_untouched()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail_test_empty_citation_non_refusal_downgrades_to_refusal",
+        ".test_empty_citation_non_refusal_downgrades_to_refusal()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail_test_email_in_answer_redacted",
+        ".test_email_in_answer_redacted()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testoutputguardrail_test_phone_in_answer_redacted",
+        ".test_phone_in_answer_redacted()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_pipeline",
+        "test_pipeline.py",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_fakeretriever",
+        "_FakeRetriever",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_fakeretriever_init",
+        ".__init__()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_chunk",
+        "Chunk",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_fakeretriever_search",
+        ".search()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_sample_chunks",
+        "_sample_chunks()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_patch_route",
+        "_patch_route()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_routedecision",
+        "RouteDecision",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_patch_guardrail",
+        "_patch_guardrail()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_guardraildecision",
+        "GuardrailDecision",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_patch_generate",
+        "_patch_generate()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_patch_verify",
+        "_patch_verify()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_verifierverdict",
+        "VerifierVerdict",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_patch_check_output",
+        "_patch_check_output()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_py_any",
+        "Any",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow",
+        "TestPipelineFlow",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_happy_path_grounded_answer",
+        ".test_happy_path_grounded_answer()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_guardrail_refusal_short_circuits",
+        ".test_guardrail_refusal_short_circuits()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_ungrounded_triggers_one_retry",
+        ".test_ungrounded_triggers_one_retry()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_retry_exhausted_returns_warning",
+        ".test_retry_exhausted_returns_warning()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_output_guardrail_downgrade_skips_verifier",
+        ".test_output_guardrail_downgrade_skips_verifier()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_debug_trace_populated_on_demand",
+        ".test_debug_trace_populated_on_demand()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelineflow_test_doc_filter_resolves_correctly",
+        ".test_doc_filter_resolves_correctly()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelinelive",
+        "TestPipelineLive",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelinelive_test_active_user_question_end_to_end",
+        ".test_active_user_question_end_to_end()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_testpipelinelive_test_code_request_refused_end_to_end",
+        ".test_code_request_refused_end_to_end()",
+        "code",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_1",
+        "Phase 6 pipeline tests.    - TestPipelineFlow: mocked tests covering the full ro",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_37",
+        "Drop-in retriever that returns canned chunks. Bypasses Ollama / Chroma.     Kept",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_137",
+        "If the input guardrail rejects, NO downstream calls happen.",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_157",
+        "If the verifier says ungrounded, retrieval+generation+verify run again.",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_186",
+        "If verify is ungrounded twice, return the answer with verified=false + warning.",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_207",
+        "If check_output downgrades to refusal, the verifier sees a refusal and auto-pass",
+        "rationale",
+        "tests/test_pipeline.py"
+      ],
+      [
+        "tests_test_pipeline_rationale_249",
+        "The router's products list must be translated to a doc_id list         the retri",
+        "rationale",
+        "tests/test_pipeline.py"
+      ]
+    ],
+    "9": [
+      [
+        "app_ingest",
+        "ingest.py",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_embed_texts",
+        "_embed_texts()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_write_chroma",
+        "_write_chroma()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_py_chunk",
+        "Chunk",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_tokenize",
+        "_tokenize()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_write_bm25",
+        "_write_bm25()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_generate_doc_summary",
+        "_generate_doc_summary()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_py_any",
+        "Any",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_write_doc_summaries",
+        "_write_doc_summaries()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_run",
+        "run()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_main",
+        "main()",
+        "code",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_1",
+        "Offline ingestion pipeline. Run with:      python -m app.ingest",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_66",
+        "Embed a batch of texts via Ollama, sequentially (Ollama lib is sync).      Repor",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_91",
+        "Reset the Chroma collection and (re)populate it with chunks + embeddings.      W",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_148",
+        "Lower-case alphanumeric tokenizer for BM25.      Keeps tokens with internal slas",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_159",
+        "Build BM25Okapi over chunk texts and persist along with the chunks     themselve",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_213",
+        "Use llama3.1:8b to produce one summary dict for a doc. Falls back to     a minim",
+        "rationale",
+        "app/ingest.py"
+      ],
+      [
+        "app_ingest_rationale_248",
+        "Write index/doc_summaries.json. The router prompt loads this so it     knows wha",
+        "rationale",
+        "app/ingest.py"
+      ]
+    ],
+    "10": [
+      [
+        "app_llm",
+        "llm.py",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_llm_provider",
+        "_llm_provider()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_embed_provider",
+        "_embed_provider()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_require_env",
+        "_require_env()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_chat",
+        "chat()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_embed",
+        "embed()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_chat_ollama",
+        "_chat_ollama()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_embed_ollama",
+        "_embed_ollama()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_chat_openai",
+        "_chat_openai()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_embed_openai",
+        "_embed_openai()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_chat_anthropic",
+        "_chat_anthropic()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_chat_google",
+        "_chat_google()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_embed_google",
+        "_embed_google()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_provider_summary",
+        "provider_summary()",
+        "code",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_rationale_1",
+        "Provider-agnostic LLM facade.  Two public functions used everywhere in the proje",
+        "rationale",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_rationale_84",
+        "Send a chat completion to the configured provider; return the     assistant mess",
+        "rationale",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_rationale_116",
+        "Embed `text` via the configured embedding provider. Returns a list     of floats",
+        "rationale",
+        "app/llm.py"
+      ],
+      [
+        "app_llm_rationale_328",
+        "Return a structured description of which providers are active.     Safe to expos",
+        "rationale",
+        "app/llm.py"
+      ],
+      [
+        "ui_streamlit_app",
+        "streamlit_app.py",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_set_question",
+        "_set_question()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_format_latency_ms",
+        "_format_latency_ms()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_render_status",
+        "_render_status()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_py_queryresponse",
+        "QueryResponse",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_render_answer",
+        "_render_answer()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_render_citations",
+        "_render_citations()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_render_trace",
+        "_render_trace()",
+        "code",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_rationale_1",
+        "Streamlit UI for the Agentic RAG system.  Run with:     streamlit run ui/streaml",
+        "rationale",
+        "ui/streamlit_app.py"
+      ],
+      [
+        "ui_streamlit_app_rationale_152",
+        "Top-of-card status row: badge + latency.",
+        "rationale",
+        "ui/streamlit_app.py"
+      ]
+    ],
+    "13": [
+      [
+        "app_meta_chunker",
+        "meta_chunker.py",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_approx_tokens",
+        "_approx_tokens()",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_split_readme",
+        "_split_readme()",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_split_to_chunks",
+        "_split_to_chunks()",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_module_docstring",
+        "_module_docstring()",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_py_path",
+        "Path",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_build_meta_chunks",
+        "build_meta_chunks()",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_py_chunk",
+        "Chunk",
+        "code",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_rationale_1",
+        "Meta-corpus chunker.  Builds a small \"self-describing\" corpus from developer-mai",
+        "rationale",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_rationale_73",
+        "Split a Markdown document into (section_number, section_title, body).      Secti",
+        "rationale",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_rationale_112",
+        "Greedy paragraph packing. Splits on blank lines, packs until target,     forces",
+        "rationale",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_rationale_135",
+        "Extract the module-level docstring from a Python file. Returns None if     the f",
+        "rationale",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_meta_chunker_rationale_146",
+        "Build the meta-corpus as a list of Chunk objects.      Sources:         - README",
+        "rationale",
+        "app/meta_chunker.py"
+      ],
+      [
+        "app_schemas_chunk",
+        "Chunk",
+        "code",
+        "app/schemas.py"
+      ],
+      [
+        "app_schemas_rationale_92",
+        "A retrieved chunk plus its metadata. Mirrors the index schema.",
+        "rationale",
+        "app/schemas.py"
+      ]
+    ],
+    "14": [
+      [
+        "app_pipeline",
+        "pipeline.py",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_resolve_doc_filter",
+        "_resolve_doc_filter()",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_chunk_summary",
+        "_chunk_summary()",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_py_chunk",
+        "Chunk",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_py_any",
+        "Any",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_answer",
+        "answer()",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "retriever",
+        "Retriever",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_py_queryresponse",
+        "QueryResponse",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_is_refusal",
+        "_is_refusal()",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_py_generatedanswer",
+        "GeneratedAnswer",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_cli",
+        "_cli()",
+        "code",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_rationale_1",
+        "Phase 6 — orchestrator.  `answer(question, debug=False) -> QueryResponse` is THE",
+        "rationale",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_rationale_44",
+        "Translate the router's `products` list into a flat list of doc_ids     for the r",
+        "rationale",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_rationale_63",
+        "Compact per-chunk descriptor for the trace. Avoids dumping full text     (the re",
+        "rationale",
+        "app/pipeline.py"
+      ],
+      [
+        "app_pipeline_rationale_90",
+        "Run the full RAG pipeline on a single question.      Args:         question:  Th",
+        "rationale",
+        "app/pipeline.py"
+      ]
+    ],
+    "11": [
+      [
+        "app_retrieve_retriever",
+        "Retriever",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_init",
+        ".__init__()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_py_path",
+        "Path",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_load_bm25",
+        "._load_bm25()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_open_chroma",
+        "._open_chroma()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_search",
+        ".search()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_py_queryintent",
+        "QueryIntent",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_py_chunk",
+        "Chunk",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_bm25_search",
+        "._bm25_search()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_heading_anchor_matches",
+        "._heading_anchor_matches()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_retriever_vector_search",
+        "._vector_search()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_74",
+        "Hybrid BM25 + vector retriever. Stateful: holds the indexes in memory.",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_84",
+        "Unpickle the BM25 payload built by ingest.py.          The payload contains:",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_110",
+        "Open the persistent Chroma collection. No vectors are loaded into         Python",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_125",
+        "Return the top-k chunks for `query`, optionally restricted to `docs`.          A",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_275",
+        "Score the entire corpus with BM25, then return the top-k chunk_ids.          BM2",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_307",
+        "Find chunks whose `section_title` (the canonical short heading         each chun",
+        "rationale",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_rationale_367",
+        "Embed the query, search Chroma with the doc-id filter applied         natively,",
+        "rationale",
+        "app/retrieve.py"
+      ]
+    ],
+    "2": [
+      [
+        "app_retrieve_get_retriever",
+        "get_retriever()",
+        "code",
+        "app/retrieve.py"
+      ],
+      [
+        "app_retrieve_demo",
+        "retrieve_demo.py",
+        "code",
+        "app/retrieve_demo.py"
+      ],
+      [
+        "app_retrieve_demo_print_result",
+        "_print_result()",
+        "code",
+        "app/retrieve_demo.py"
+      ],
+      [
+        "app_retrieve_demo_py_queryintent",
+        "QueryIntent",
+        "code",
+        "app/retrieve_demo.py"
+      ],
+      [
+        "app_retrieve_demo_main",
+        "main()",
+        "code",
+        "app/retrieve_demo.py"
+      ],
+      [
+        "app_retrieve_demo_rationale_1",
+        "Interactive retrieval sanity check. Run with:      python -m app.retrieve_demo \"",
+        "rationale",
+        "app/retrieve_demo.py"
+      ],
+      [
+        "tests_test_agent",
+        "test_agent.py",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_mock_chat_response",
+        "_mock_chat_response()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_sample_chunks",
+        "sample_chunks()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_py_chunk",
+        "Chunk",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic",
+        "TestGenerateLogic",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_valid_json_passes_through",
+        ".test_valid_json_passes_through()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_invented_citation_is_dropped",
+        ".test_invented_citation_is_dropped()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_empty_chunks_returns_refusal_without_llm_call",
+        ".test_empty_chunks_returns_refusal_without_llm_call()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_invalid_json_falls_back_to_refusal",
+        ".test_invalid_json_falls_back_to_refusal()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_validation_error_falls_back_to_refusal",
+        ".test_validation_error_falls_back_to_refusal()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_ollama_exception_triggers_retry_then_refusal",
+        ".test_ollama_exception_triggers_retry_then_refusal()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testgeneratelogic_test_refusal_with_chunks_accepted",
+        ".test_refusal_with_chunks_accepted()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testverifylogic_test_invalid_json_defaults_to_ungrounded",
+        ".test_invalid_json_defaults_to_ungrounded()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testcitationvalidation",
+        "TestCitationValidation",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testcitationvalidation_test_doc_page_match_without_section_passes",
+        ".test_doc_page_match_without_section_passes()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testcitationvalidation_test_section_with_paragraph_marker_normalized",
+        ".test_section_with_paragraph_marker_normalized()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testagentlive",
+        "TestAgentLive",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testagentlive_test_active_user_question_produces_grounded_answer",
+        ".test_active_user_question_produces_grounded_answer()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_testagentlive_test_unanswerable_question_produces_refusal",
+        ".test_unanswerable_question_produces_refusal()",
+        "code",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_rationale_1",
+        "Phase 4 generator + verifier tests.    - TestGenerateLogic / TestVerifyLogic: mo",
+        "rationale",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_rationale_30",
+        "Return the bare content string — that's what llm.chat() returns     after the pr",
+        "rationale",
+        "tests/test_agent.py"
+      ],
+      [
+        "tests_test_agent_rationale_258",
+        "End-to-end against real models using the live retriever index.      These are sm",
+        "rationale",
+        "tests/test_agent.py"
+      ]
+    ],
+    "15": [
+      [
+        "app_router",
+        "router.py",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_load_doc_summaries",
+        "_load_doc_summaries()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_py_any",
+        "Any",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_format_doc_summaries",
+        "_format_doc_summaries()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_build_system_prompt",
+        "_build_system_prompt()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_get_system_prompt",
+        "_get_system_prompt()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_apply_heuristic_overrides",
+        "_apply_heuristic_overrides()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_py_routedecision",
+        "RouteDecision",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_route",
+        "route()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_cli",
+        "_cli()",
+        "code",
+        "app/router.py"
+      ],
+      [
+        "app_router_rationale_1",
+        "Agentic step #1 — the (product, intent) router + query rewriter.  Given a natura",
+        "rationale",
+        "app/router.py"
+      ],
+      [
+        "app_router_rationale_58",
+        "Load index/doc_summaries.json. Returns an empty list if missing —     the router",
+        "rationale",
+        "app/router.py"
+      ],
+      [
+        "app_router_rationale_71",
+        "Render the summaries as a compact bulleted block for the prompt.      Output loo",
+        "rationale",
+        "app/router.py"
+      ],
+      [
+        "app_router_rationale_175",
+        "Enforce invariants the LLM can't break:       - comparison intent must search AL",
+        "rationale",
+        "app/router.py"
+      ],
+      [
+        "app_router_rationale_190",
+        "Classify a user question into (products, intent) + rewritten query.      Returns",
+        "rationale",
+        "app/router.py"
+      ]
+    ],
+    "21": [
+      [
+        "app_smoke",
+        "smoke.py",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "app_smoke_ok",
+        "ok()",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "app_smoke_fail",
+        "fail()",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "exception",
+        "Exception",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "app_smoke_section",
+        "section()",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "app_smoke_main",
+        "main()",
+        "code",
+        "app/smoke.py"
+      ],
+      [
+        "app_smoke_rationale_1",
+        "Phase 0 smoke test. Run with: python -m app.smoke  Verifies:   1. All required d",
+        "rationale",
+        "app/smoke.py"
+      ]
+    ],
+    "38": [
+      [
+        "eval_init",
+        "__init__.py",
+        "code",
+        "eval/__init__.py"
+      ]
+    ],
+    "36": [
+      [
+        "run",
+        "run.sh",
+        "code",
+        "run.sh"
+      ],
+      [
+        "users_i768724_documents_agentic_rag_over_sap_sdgs_run_sh__entry",
+        "run.sh script",
+        "code",
+        "run.sh"
+      ]
+    ],
+    "42": [
+      [
+        "tests_init",
+        "__init__.py",
+        "code",
+        "tests/__init__.py"
+      ]
+    ],
+    "1": [
+      [
+        "tests_test_guardrails",
+        "test_guardrails.py",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_mock_chat",
+        "_mock_chat()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1",
+        "TestStage1",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_legitimate_questions_pass",
+        ".test_legitimate_questions_pass()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_code_requests_rejected",
+        ".test_code_requests_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_pricing_questions_rejected",
+        ".test_pricing_questions_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_prompt_injection_rejected",
+        ".test_prompt_injection_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_legal_advice_rejected",
+        ".test_legal_advice_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_off_topic_rejected",
+        ".test_off_topic_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_empty_input_rejected",
+        ".test_empty_input_rejected()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage1_test_prompt_injection_takes_precedence_over_other_rules",
+        ".test_prompt_injection_takes_precedence_over_other_rules()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2",
+        "TestStage2",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_short_question_with_sap_term_bypasses_stage2",
+        ".test_short_question_with_sap_term_bypasses_stage2()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_short_topic_free_question_still_routes_to_stage2",
+        ".test_short_topic_free_question_still_routes_to_stage2()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_stage2_can_reject",
+        ".test_stage2_can_reject()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_stage2_invalid_json_fails_open",
+        ".test_stage2_invalid_json_fails_open()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_stage2_ollama_exception_fails_open",
+        ".test_stage2_ollama_exception_fails_open()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_teststage2_test_stage2_not_called_when_stage1_fires",
+        ".test_stage2_not_called_when_stage1_fires()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testguardrailslive",
+        "TestGuardrailsLive",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_testguardrailslive_test_borderline_query_routes_to_stage2",
+        ".test_borderline_query_routes_to_stage2()",
+        "code",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_1",
+        "Phase 5 guardrails tests.    - TestStage1: deterministic regex tests, no LLM, fa",
+        "rationale",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_25",
+        "llm.chat() returns the bare content string (provider abstraction).",
+        "rationale",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_131",
+        "Short questions that mention SAP-specific vocabulary should NOT         invoke t",
+        "rationale",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_152",
+        "A 3-word question with NO SAP vocabulary still hits Stage 2 —         the safety",
+        "rationale",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_190",
+        "If Stage 1 catches a query, Stage 2 must not run (saves latency).",
+        "rationale",
+        "tests/test_guardrails.py"
+      ],
+      [
+        "tests_test_guardrails_rationale_267",
+        "A 3-word question hits Stage 2; the small model should classify         it sensi",
+        "rationale",
+        "tests/test_guardrails.py"
+      ]
+    ],
+    "6": [
+      [
+        "tests_test_llm",
+        "test_llm.py",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch",
+        "TestChatDispatch",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_default_provider_is_ollama",
+        ".test_default_provider_is_ollama()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_explicit_ollama",
+        ".test_explicit_ollama()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_openai",
+        ".test_openai()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_anthropic",
+        ".test_anthropic()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_google",
+        ".test_google()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testchatdispatch_test_unknown_provider_raises",
+        ".test_unknown_provider_raises()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testembeddispatch",
+        "TestEmbedDispatch",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testembeddispatch_test_default_embed_provider_is_ollama",
+        ".test_default_embed_provider_is_ollama()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testembeddispatch_test_embed_provider_overrides_llm_provider",
+        ".test_embed_provider_overrides_llm_provider()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testembeddispatch_test_anthropic_embed_raises_helpful_error",
+        ".test_anthropic_embed_raises_helpful_error()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testlazyimports",
+        "TestLazyImports",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testlazyimports_test_openai_chat_without_package_raises_clearly",
+        ".test_openai_chat_without_package_raises_clearly()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testlazyimports_test_anthropic_chat_without_package_raises_clearly",
+        ".test_anthropic_chat_without_package_raises_clearly()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testkeyhandling",
+        "TestKeyHandling",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testkeyhandling_test_openai_missing_key_raises",
+        ".test_openai_missing_key_raises()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testkeyhandling_test_anthropic_missing_key_raises",
+        ".test_anthropic_missing_key_raises()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testprovidersummary",
+        "TestProviderSummary",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testprovidersummary_test_summary_reflects_env_vars",
+        ".test_summary_reflects_env_vars()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_testprovidersummary_test_summary_does_not_include_keys",
+        ".test_summary_does_not_include_keys()",
+        "code",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_rationale_1",
+        "Tests for the LLM provider abstraction.  Verifies provider dispatch, env-var-bas",
+        "rationale",
+        "tests/test_llm.py"
+      ],
+      [
+        "tests_test_llm_rationale_98",
+        "If `openai` isn't installed, calling chat() with LLM_PROVIDER=openai         sho",
+        "rationale",
+        "tests/test_llm.py"
+      ]
+    ],
+    "18": [
+      [
+        "tests_test_retrieve",
+        "test_retrieve.py",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_retr",
+        "retr()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_retriever_loads",
+        "test_retriever_loads()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_returns_requested_k",
+        "test_returns_requested_k()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_active_user_query_hits_section_1_2_or_1_3",
+        "test_active_user_query_hits_section_1_2_or_1_3()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_paraphrased_query_finds_api_call_definition",
+        "test_paraphrased_query_finds_api_call_definition()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_filter_to_sap_erp_pce_only",
+        "test_filter_to_sap_erp_pce_only()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_no_filter_returns_chunks_from_multiple_docs",
+        "test_no_filter_returns_chunks_from_multiple_docs()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_comparison_intent_returns_more_chunks",
+        "test_comparison_intent_returns_more_chunks()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_returned_chunks_have_score_and_ranks",
+        "test_returned_chunks_have_score_and_ranks()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_scores_are_descending",
+        "test_scores_are_descending()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_empty_query_does_not_crash",
+        "test_empty_query_does_not_crash()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_test_nonsense_query_returns_low_quality_but_valid",
+        "test_nonsense_query_returns_low_quality_but_valid()",
+        "code",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_1",
+        "Phase 2 retrieval correctness tests. Requires ./index/ to be built.  Run with:",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_15",
+        "One Retriever shared across all tests in this module.",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_23",
+        "Cold start should produce a non-empty corpus.",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_39",
+        "The defining test from Phase 1: 'What is an Active User?' should     retrieve th",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_71",
+        "A paraphrased question with no exact keyword overlap with the SDG     should sti",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_104",
+        "A broad cross-product term ('subscription term') should naturally     pull from",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_124",
+        "intent='comparison' should default to COMPARISON_TOP_K (8) when k     is not spe",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_138",
+        "Every chunk returned by search() must carry the diagnostic fields:     score, an",
+        "rationale",
+        "tests/test_retrieve.py"
+      ],
+      [
+        "tests_test_retrieve_rationale_165",
+        "A truly off-topic query should still return SOMETHING (valid Chunks)     rather",
+        "rationale",
+        "tests/test_retrieve.py"
+      ]
+    ],
+    "7": [
+      [
+        "tests_test_router",
+        "test_router.py",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_mock_ollama_response",
+        "_mock_ollama_response()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic",
+        "TestRouterLogic",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_valid_json_passes_through",
+        ".test_valid_json_passes_through()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_invalid_json_falls_back_after_retry",
+        ".test_invalid_json_falls_back_after_retry()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_validation_error_falls_back",
+        ".test_validation_error_falls_back()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_comparison_intent_forces_products_all",
+        ".test_comparison_intent_forces_products_all()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_definition_intent_forces_products_all",
+        ".test_definition_intent_forces_products_all()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_specific_clause_intent_does_not_override_products",
+        ".test_specific_clause_intent_does_not_override_products()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_empty_query_falls_back_without_llm_call",
+        ".test_empty_query_falls_back_without_llm_call()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_empty_rewritten_query_falls_back_to_original",
+        ".test_empty_rewritten_query_falls_back_to_original()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlogic_test_ollama_exception_triggers_retry_then_fallback",
+        ".test_ollama_exception_triggers_retry_then_fallback()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlive",
+        "TestRouterLive",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlive_test_pce_specific_question_routes_to_pce",
+        ".test_pce_specific_question_routes_to_pce()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlive_test_comparison_question_routes_to_all",
+        ".test_comparison_question_routes_to_all()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_testrouterlive_test_definition_question_routes_to_all",
+        ".test_definition_question_routes_to_all()",
+        "code",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_rationale_1",
+        "Phase 3 router tests.  Two test classes:   - TestRouterLogic: mocked Ollama. Fas",
+        "rationale",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_rationale_31",
+        "llm.chat() returns the bare content string (provider abstraction).     Name kept",
+        "rationale",
+        "tests/test_router.py"
+      ],
+      [
+        "tests_test_router_rationale_154",
+        "Realistic questions against the actual Ollama model.      These are NOT contract",
+        "rationale",
+        "tests/test_router.py"
+      ]
+    ],
+    "29": [
+      [
+        "tests_test_ui",
+        "test_ui.py",
+        "code",
+        "tests/test_ui.py"
+      ],
+      [
+        "tests_test_ui_test_streamlit_ui_loads_without_import_error",
+        "test_streamlit_ui_loads_without_import_error()",
+        "code",
+        "tests/test_ui.py"
+      ],
+      [
+        "tests_test_ui_rationale_1",
+        "Test that the Streamlit UI actually loads end-to-end.  Uses Streamlit's official",
+        "rationale",
+        "tests/test_ui.py"
+      ],
+      [
+        "tests_test_ui_rationale_24",
+        "The Streamlit script must execute end-to-end without ImportError /     ModuleNot",
+        "rationale",
+        "tests/test_ui.py"
+      ]
+    ],
+    "17": [
+      [
+        "readme",
+        "README.md",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_agentic_rag_over_sap_service_description_guides",
+        "Agentic RAG over SAP Service Description Guides",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_tl_dr",
+        "TL;DR",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_prerequisites",
+        "Prerequisites",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_path_a_native_recommended_on_macos_for_speed",
+        "Path A — Native (recommended on macOS for speed)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_path_b_docker_app_only",
+        "Path B — Docker (app-only)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_path_c_docker_compose_with_ollama_in_a_sibling_container",
+        "Path C — `docker compose` with Ollama in a sibling container",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_quick_start_path_a_native",
+        "Quick start — Path A (native)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_quick_start_path_b_docker_app_only",
+        "Quick start — Path B (Docker, app-only)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_quick_start_path_c_docker_compose_ollama_containerised",
+        "Quick start — Path C (`docker compose`, Ollama containerised)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_architecture",
+        "Architecture",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_agentic_elements",
+        "Agentic elements",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_project_layout",
+        "Project layout",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_key_decisions",
+        "Key decisions",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_security_guardrails",
+        "Security & guardrails",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_1_input_guardrail_stage_1_regex_0_ms_no_llm",
+        "1. Input guardrail — Stage 1 regex (0 ms, no LLM)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_2_input_guardrail_stage_2_small_llm_fallback",
+        "2. Input guardrail — Stage 2 small-LLM fallback",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_3_output_guardrail_deterministic_after_generation",
+        "3. Output guardrail (deterministic, after generation)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_4_self_check_verifier_llm_after_the_output_guardrail",
+        "4. Self-check verifier (LLM, after the output guardrail)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_defense_in_depth_meta_corpus_fence",
+        "Defense in depth — meta-corpus fence",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_provider_switching",
+        "Provider switching",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_eval_results",
+        "Eval results",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_what_works_well",
+        "What works well",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_q1_defined_term_retrieval",
+        "Q1 — Defined-term retrieval",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_q2_acronym_expansion",
+        "Q2 — Acronym expansion",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_q3_defined_term_with_the_answer_guard_kicking_in",
+        "Q3 — Defined term with the answer guard kicking in",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_q4_honest_refusal_on_a_guardrail_trigger_0_ms",
+        "Q4 — Honest refusal on a guardrail trigger (0 ms)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_q5_meta_question_grounded_in_readme",
+        "Q5 — Meta-question grounded in README",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_what_struggles_be_honest",
+        "What struggles (be honest)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_defined_term_confusion_q2_in_the_eval_set_what_is_an_api_call",
+        "Defined-term confusion (Q2 in the eval set, \"What is an API Call?\")",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_cross_product_comparison_gets_rise_skewed_q5_in_the_eval_set",
+        "Cross-product comparison gets RISE-skewed (Q5 in the eval set)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_faithful_summarisation_of_a_multi_clause_section_is_99_9_sla_available",
+        "Faithful summarisation of a multi-clause section (\"Is 99.9% SLA available?\")",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_what_i_d_do_differently_with_more_time",
+        "What I'd do differently with more time",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_tradeoffs_things_deliberately_cut",
+        "Tradeoffs / things deliberately cut",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_test_run_demo",
+        "Test, run, demo",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_run_all_tests",
+        "Run all tests",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_run_the_eval_set",
+        "Run the eval set",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_demo_individual_subsystems",
+        "Demo individual subsystems",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_query_debug_mode",
+        "`/query` debug mode",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_troubleshooting",
+        "Troubleshooting",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_capability_checklist",
+        "Capability checklist",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_license_attribution",
+        "License & attribution",
+        "document",
+        "README.md"
+      ]
+    ],
+    "20": [
+      [
+        "eval_scorecard",
+        "SCORECARD.md",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_eval_scorecard",
+        "Eval Scorecard",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_aggregate_scorecard",
+        "Aggregate scorecard",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_what_works",
+        "What works",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_what_struggles",
+        "What struggles",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_q2_defined_term_confusion",
+        "Q2 — defined-term confusion",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_q5_cross_product_comparison",
+        "Q5 — cross-product comparison",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_intent_boundary_cases_q11_q12",
+        "Intent boundary cases (Q11, Q12)",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "eval_scorecard_honest_verdict",
+        "Honest verdict",
+        "document",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "readme_main",
+        "Agentic RAG over SAP SDGs README",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_num_ctx_8192",
+        "NUM_CTX=8192 explicit cap",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_provider_abstraction",
+        "Provider Abstraction (app/llm.py)",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_ollama",
+        "Ollama (local LLM runtime)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_streamlit_ui",
+        "Streamlit Demo UI",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_app_llm",
+        "app/llm.py provider abstraction",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_eval_set",
+        "eval/eval_set.json (15 hand-graded questions)",
+        "document",
+        "README.md"
+      ],
+      [
+        "readme_eval_run_eval",
+        "eval/run_eval.py harness",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_dockerfile",
+        "Dockerfile (multi-stage, non-root)",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_provider_openai",
+        "OpenAI provider option (gpt-4o-mini)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_provider_anthropic",
+        "Anthropic provider option (claude-haiku-4-5)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_provider_google",
+        "Google Gemini provider option",
+        "concept",
+        "README.md"
+      ],
+      [
+        "docker_compose",
+        "docker-compose.yml",
+        "code",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_host_ollama_profile",
+        "host-ollama profile",
+        "concept",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_with_ollama_profile",
+        "with-ollama profile",
+        "concept",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_app_base",
+        "app-base service template",
+        "code",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_app_host_ollama",
+        "app-host-ollama service",
+        "code",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_app_with_ollama",
+        "app-with-ollama service",
+        "code",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_ollama_service",
+        "ollama sibling container service",
+        "code",
+        "docker-compose.yml"
+      ],
+      [
+        "docker_compose_metal_rationale",
+        "Metal GPU passthrough limitation rationale",
+        "rationale",
+        "docker-compose.yml"
+      ],
+      [
+        "requirements_ollama",
+        "ollama>=0.4 (Python client)",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_streamlit",
+        "streamlit>=1.40",
+        "concept",
+        "requirements.txt"
+      ]
+    ],
+    "16": [
+      [
+        "readme_agentic_rag_system",
+        "Agentic RAG System",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_sap_sdgs",
+        "SAP Service Description Guides (SDGs)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_hybrid_retrieval",
+        "Hybrid BM25 + Vector + RRF Retrieval",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_router_agentic",
+        "Router (Agentic Step 1)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_verifier_agentic",
+        "Self-Check Verifier (Agentic Step 2)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_answer_guard",
+        "Deterministic Answer Guard",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_input_guardrail",
+        "Input Guardrail (Stage 1 Regex + Stage 2 LLM)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_output_guardrail",
+        "Output Guardrail (PII redaction, citation downgrade)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_meta_corpus",
+        "Meta-Corpus (README + module docstrings)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_heading_anchor_boost",
+        "Heading-Anchor Boost",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_structure_aware_chunking",
+        "Structure-Aware Regex Chunking with PAGE markers",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_two_model_split",
+        "Two-Model Split (8B gen + 3B small)",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_citation_salvage",
+        "Citation Salvage + Quote Re-Anchoring",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "readme_llama31_8b",
+        "llama3.1:8b (generator model)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_llama32",
+        "llama3.2:latest (small model)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_nomic_embed",
+        "nomic-embed-text (embedding model)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_chroma",
+        "ChromaDB (vector store)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_bm25",
+        "BM25 (lexical retriever)",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_rrf",
+        "Reciprocal Rank Fusion",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_fastapi",
+        "FastAPI",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_pydantic",
+        "Pydantic schemas",
+        "concept",
+        "README.md"
+      ],
+      [
+        "readme_app_pipeline",
+        "app/pipeline.py orchestrator",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_router",
+        "app/router.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_agent",
+        "app/agent.py (generator + verifier)",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_answer_guard",
+        "app/answer_guard.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_guardrails",
+        "app/guardrails.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_retrieve",
+        "app/retrieve.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_ingest",
+        "app/ingest.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_chunker",
+        "app/chunker.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_meta_chunker",
+        "app/meta_chunker.py",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_app_api",
+        "app/api.py FastAPI surface",
+        "code",
+        "README.md"
+      ],
+      [
+        "readme_cross_encoder_reranker",
+        "Cross-Encoder Reranker (future work)",
+        "rationale",
+        "README.md"
+      ],
+      [
+        "scorecard_q2_api_call_failure",
+        "Q2 API Call defined-term confusion",
+        "rationale",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "scorecard_q5_comparison_failure",
+        "Q5 Cross-Product Comparison RISE-skew",
+        "rationale",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "scorecard_intent_boundary",
+        "Q11/Q12 Intent Boundary Cases",
+        "rationale",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "scorecard_verifier_justified",
+        "Verifier Justification (catches Q5)",
+        "rationale",
+        "eval/SCORECARD.md"
+      ],
+      [
+        "requirements_main",
+        "requirements.txt",
+        "document",
+        "requirements.txt"
+      ],
+      [
+        "requirements_fastapi",
+        "fastapi>=0.115",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_uvicorn",
+        "uvicorn[standard]>=0.32",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_pydantic",
+        "pydantic>=2.9",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_pymupdf",
+        "pymupdf>=1.24",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_chromadb",
+        "chromadb>=0.5",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_rank_bm25",
+        "rank-bm25>=0.2",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_numpy",
+        "numpy>=1.26",
+        "concept",
+        "requirements.txt"
+      ],
+      [
+        "requirements_pytest",
+        "pytest>=8.0",
+        "concept",
+        "requirements.txt"
+      ]
+    ],
+    "39": [
+      [
+        "readme_app_config",
+        "app/config.py single source of truth",
+        "code",
+        "README.md"
+      ]
+    ],
+    "40": [
+      [
+        "readme_app_schemas",
+        "app/schemas.py Pydantic models",
+        "code",
+        "README.md"
+      ]
+    ],
+    "41": [
+      [
+        "readme_ragas",
+        "ragas eval framework (future work)",
+        "concept",
+        "README.md"
+      ]
+    ],
+    "12": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_cloud_erp_private",
+        "SAP Cloud ERP Private",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_cloud_erp_private__rise_rise_with_sap_s4hana_cloud_private_edition",
+        "RISE with SAP S/4HANA Cloud, private edition",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_cloud_erp_private__rise_sap_central_procurement",
+        "SAP Central Procurement",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_cloud_erp_private__rise_full_use_equivalent_fue",
+        "Full Use Equivalent (FUE)",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_erp_private_cloud_edition",
+        "SAP ERP, private cloud edition",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_ase_database",
+        "SAP ASE Database",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_audit_management",
+        "SAP Audit Management",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_business_integrity_screening_for_erp",
+        "SAP Business Integrity Screening for ERP",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_contact_center",
+        "SAP Contact Center",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_convergent_mediation_by_digitalroute",
+        "SAP Convergent Mediation by DigitalRoute",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_digital_asset_management_by_opentext",
+        "SAP Digital Asset Management by OpenText",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_rise_with_sap_s4hana_cloud_private_edition_tailored_option",
+        "RISE with SAP S/4HANA Cloud, private edition, tailored option",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_application_interface_framework",
+        "SAP Application Interface Framework",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_central_finance_transaction_replication_by_insightsoftware",
+        "SAP Central Finance Transaction Replication by Insightsoftware",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_customer_experience",
+        "SAP Customer Experience",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "concept_sap_s4hana_cloud",
+        "SAP S/4HANA Cloud",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_erp",
+        "SAP ERP",
+        "concept",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "concept_rise_with_sap",
+        "RISE with SAP",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "32": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_business_technology_platform",
+        "SAP Business Technology Platform",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_business_technology_platform",
+        "SAP Business Technology Platform",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "30": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_hana_cloud",
+        "SAP HANA Cloud",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_cloud_erp_private__rise_sap_hana_rules_framework",
+        "SAP HANA Rules Framework",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_hana",
+        "SAP HANA",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "35": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_fiori",
+        "SAP Fiori",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_fiori",
+        "SAP Fiori",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "31": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_business_application_studio",
+        "SAP Business Application Studio",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_business_application_studio",
+        "SAP Business Application Studio",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "34": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_cloud_connector",
+        "SAP Cloud Connector",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "concept_sap_cloud_connector",
+        "SAP Cloud Connector",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "25": [
+      [
+        "data_sap_cloud_erp_private__rise_sap_datasphere",
+        "SAP Datasphere",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_sap_cloud_erp_private__rise_sap_analytics_cloud_agent",
+        "SAP Analytics Cloud Agent",
+        "paper",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_data_provisioning_agent",
+        "SAP Data Provisioning Agent",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_data_services_agent",
+        "SAP Data Services Agent",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_data_integrator",
+        "SAP Data Integrator",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "concept_sap_datasphere",
+        "SAP Datasphere",
+        "concept",
+        "Data/SAP Cloud ERP Private, RISE.pdf"
+      ]
+    ],
+    "33": [
+      [
+        "data_sap_erp_private_cloud_edition_sap_bw_4hana_cloud",
+        "SAP BW/4HANA Cloud",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "concept_sap_business_warehouse_software",
+        "SAP Business Warehouse Software",
+        "concept",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ]
+    ],
+    "27": [
+      [
+        "data_sap_erp_private_cloud_edition_sap_businessobjects_bi_platform",
+        "SAP BusinessObjects BI Platform",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_lumira_server",
+        "SAP Lumira Server",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_crystal_reports",
+        "SAP Crystal Reports",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_businessobjects_enterprise",
+        "SAP BusinessObjects Enterprise",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ]
+    ],
+    "28": [
+      [
+        "data_sap_erp_private_cloud_edition_sap_disclosure_management",
+        "SAP Disclosure Management",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_sap_erp_private_cloud_edition_sap_document_and_reporting_compliance",
+        "SAP Document and Reporting Compliance",
+        "paper",
+        "Data/SAP ERP, private cloud edition.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_electronic_invoicing",
+        "SAP Electronic Invoicing",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ],
+      [
+        "data_rise_with_sap_s4hana_cloud_priva_sap_document_and_reporting_compliance_for_s4hana_cloud",
+        "SAP Document and Reporting Compliance for SAP S/4HANA Cloud",
+        "paper",
+        "Data/rise with sap s4hana cloud priva.pdf"
+      ]
+    ]
+  },
+  "rationale_count": 140,
+  "adr_candidates": [
+    [
+      "app_agent_rationale_390",
+      "Construct a Citation by preferring valid LLM-provided fields and     falling bac",
+      "app/agent.py"
+    ],
+    [
+      "app_guardrails_rationale_222",
+      "Return True if `question` is asking about THIS system rather than     the SDGs (",
+      "app/guardrails.py"
+    ],
+    [
+      "app_pipeline_rationale_63",
+      "Compact per-chunk descriptor for the trace. Avoids dumping full text     (the re",
+      "app/pipeline.py"
+    ],
+    [
+      "docker_compose_metal_rationale",
+      "Metal GPU passthrough limitation rationale",
+      "docker-compose.yml"
+    ]
+  ],
+  "all_rationale": [
+    [
+      "app_agent_rationale_1",
+      "Phase 4 — answer generation and self-check verification.  Two public functions,",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_169",
+      "Render chunks as a numbered block for the LLM prompt.      Format:         [1] d",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_196",
+      "Drop citations that don't correspond to a real retrieved chunk.      A valid cit",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_297",
+      "Try to recover a usable GeneratedAnswer from a partially-valid LLM     response.",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_350",
+      "Try to rebuild a Citation by matching the LLM's (doc, section) pair     against",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_390",
+      "Construct a Citation by preferring valid LLM-provided fields and     falling bac",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_413",
+      "Return the first chunk whose text contains the quote (or a     substantial subst",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_450",
+      "Generate an answer from the retrieved chunks.      Returns:         (answer, deb",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_553",
+      "Verify that the generated answer is grounded in the retrieved chunks.      Retur",
+      "app/agent.py"
+    ],
+    [
+      "app_agent_rationale_626",
+      "Demo: end-to-end route + retrieve + generate + verify for one question.",
+      "app/agent.py"
+    ],
+    [
+      "app_answer_guard_rationale_1",
+      "Quote-anchored deterministic answer guard.  Generic post-process for the generat",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_75",
+      "Internal record: a bound found in a quote and the label adjacent to it.",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_94",
+      "If the LLM mis-labelled a numeric threshold answer, fix it from the     retrieve",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_237",
+      "Pull every (numeric value, unit-word) pair out of the question.      \"what is th",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_268",
+      "Find the smallest \"Up to M / ≤ M / less than M\" bound in the quote     where M >",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_292",
+      "Return the first label-shaped token that appears AFTER the bound's     span (wit",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_313",
+      "Try to find what label the LLM is currently claiming, given that     `expected`",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_answer_guard_rationale_394",
+      "Use the small model to wrap `label` in a complete sentence that     answers `que",
+      "app/answer_guard.py"
+    ],
+    [
+      "app_api_rationale_1",
+      "FastAPI surface for the Agentic RAG system.  Three endpoints:     GET  /health",
+      "app/api.py"
+    ],
+    [
+      "app_api_rationale_61",
+      "Probe whether the system is ready to serve queries.      Checks (cheap, ~50ms to",
+      "app/api.py"
+    ],
+    [
+      "app_api_rationale_128",
+      "Answer a natural-language question about SAP Service Description Guides.      Fl",
+      "app/api.py"
+    ],
+    [
+      "app_chunker_rationale_1",
+      "Structure-aware chunking for SAP Service Description Guide PDFs.  Pipeline (per",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_113",
+      "Intermediate result of pass 1 (structural split).      `text` may contain `[[PAG",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_137",
+      "Read a PDF and return its text body with header/footer banners stripped     and",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_172",
+      "Returns [(char_offset, page_number), ...] sorted by char_offset.      Used to an",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_180",
+      "Return the page number for a character offset. O(log N) via bisect.",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_197",
+      "Split text on numbered headings like '1.', '1.3.', '2.4.1.'.      Critical: the",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_279",
+      "Pull a human-readable title out of a section body.      Strategy:       1. Strip",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_310",
+      "Fallback for PDFs without numbered sections. Detect lines that are     mostly up",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_351",
+      "Used when neither numbered nor caps headings produced enough sections.     Split",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_396",
+      "Take one section unit and produce 1+ Chunk objects.      Splits the section text",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_499",
+      "Split `text` on blank lines. Returns [(para_text, start, end), ...]     where of",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_516",
+      "Split an over-long paragraph at sentence boundaries until each piece     fits ha",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_542",
+      "Return roughly the last sentence of `text`, capped at max_chars,     suitable fo",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_562",
+      "Determine (page_start, page_end) for a chunk.      Two information sources are c",
+      "app/chunker.py"
+    ],
+    [
+      "app_chunker_rationale_588",
+      "Top-level entry point. Returns all chunks for one PDF.      Strategy precedence:",
+      "app/chunker.py"
+    ],
+    [
+      "app_config_rationale_1",
+      "Central configuration for the Agentic RAG pipeline.  Single source of truth for:",
+      "app/config.py"
+    ],
+    [
+      "app_guardrails_rationale_1",
+      "Phase 5 — Input and output guardrails.  INPUT (classify_input): runs BEFORE the",
+      "app/guardrails.py"
+    ],
+    [
+      "app_guardrails_rationale_222",
+      "Return True if `question` is asking about THIS system rather than     the SDGs (",
+      "app/guardrails.py"
+    ],
+    [
+      "app_guardrails_rationale_303",
+      "Run regex rules in order; return (category, refusal_message_or_None).      Retur",
+      "app/guardrails.py"
+    ],
+    [
+      "app_guardrails_rationale_365",
+      "Last-ditch LLM classification for ambiguous queries. Returns the same     shape",
+      "app/guardrails.py"
+    ],
+    [
+      "app_guardrails_rationale_400",
+      "Decide whether the user's question is in-scope for this system.      Returns:",
+      "app/guardrails.py"
+    ],
+    [
+      "app_guardrails_rationale_446",
+      "Apply cheap deterministic checks to the generator's output.      Catches three f",
+      "app/guardrails.py"
+    ],
+    [
+      "app_ingest_rationale_1",
+      "Offline ingestion pipeline. Run with:      python -m app.ingest",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_66",
+      "Embed a batch of texts via Ollama, sequentially (Ollama lib is sync).      Repor",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_91",
+      "Reset the Chroma collection and (re)populate it with chunks + embeddings.      W",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_148",
+      "Lower-case alphanumeric tokenizer for BM25.      Keeps tokens with internal slas",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_159",
+      "Build BM25Okapi over chunk texts and persist along with the chunks     themselve",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_213",
+      "Use llama3.1:8b to produce one summary dict for a doc. Falls back to     a minim",
+      "app/ingest.py"
+    ],
+    [
+      "app_ingest_rationale_248",
+      "Write index/doc_summaries.json. The router prompt loads this so it     knows wha",
+      "app/ingest.py"
+    ],
+    [
+      "app_llm_rationale_1",
+      "Provider-agnostic LLM facade.  Two public functions used everywhere in the proje",
+      "app/llm.py"
+    ],
+    [
+      "app_llm_rationale_84",
+      "Send a chat completion to the configured provider; return the     assistant mess",
+      "app/llm.py"
+    ],
+    [
+      "app_llm_rationale_116",
+      "Embed `text` via the configured embedding provider. Returns a list     of floats",
+      "app/llm.py"
+    ],
+    [
+      "app_llm_rationale_328",
+      "Return a structured description of which providers are active.     Safe to expos",
+      "app/llm.py"
+    ],
+    [
+      "app_meta_chunker_rationale_1",
+      "Meta-corpus chunker.  Builds a small \"self-describing\" corpus from developer-mai",
+      "app/meta_chunker.py"
+    ],
+    [
+      "app_meta_chunker_rationale_73",
+      "Split a Markdown document into (section_number, section_title, body).      Secti",
+      "app/meta_chunker.py"
+    ],
+    [
+      "app_meta_chunker_rationale_112",
+      "Greedy paragraph packing. Splits on blank lines, packs until target,     forces",
+      "app/meta_chunker.py"
+    ],
+    [
+      "app_meta_chunker_rationale_135",
+      "Extract the module-level docstring from a Python file. Returns None if     the f",
+      "app/meta_chunker.py"
+    ],
+    [
+      "app_meta_chunker_rationale_146",
+      "Build the meta-corpus as a list of Chunk objects.      Sources:         - README",
+      "app/meta_chunker.py"
+    ],
+    [
+      "app_pipeline_rationale_1",
+      "Phase 6 — orchestrator.  `answer(question, debug=False) -> QueryResponse` is THE",
+      "app/pipeline.py"
+    ],
+    [
+      "app_pipeline_rationale_44",
+      "Translate the router's `products` list into a flat list of doc_ids     for the r",
+      "app/pipeline.py"
+    ],
+    [
+      "app_pipeline_rationale_63",
+      "Compact per-chunk descriptor for the trace. Avoids dumping full text     (the re",
+      "app/pipeline.py"
+    ],
+    [
+      "app_pipeline_rationale_90",
+      "Run the full RAG pipeline on a single question.      Args:         question:  Th",
+      "app/pipeline.py"
+    ],
+    [
+      "app_retrieve_rationale_1",
+      "Hybrid retrieval over the SDG index.  Two retrievers run in parallel for every q",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_57",
+      "Per-query trace for the /query?debug=true response.",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_74",
+      "Hybrid BM25 + vector retriever. Stateful: holds the indexes in memory.",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_84",
+      "Unpickle the BM25 payload built by ingest.py.          The payload contains:",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_110",
+      "Open the persistent Chroma collection. No vectors are loaded into         Python",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_125",
+      "Return the top-k chunks for `query`, optionally restricted to `docs`.          A",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_275",
+      "Score the entire corpus with BM25, then return the top-k chunk_ids.          BM2",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_307",
+      "Find chunks whose `section_title` (the canonical short heading         each chun",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_367",
+      "Embed the query, search Chroma with the doc-id filter applied         natively,",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_rationale_421",
+      "Build a list of distinctive multi-token phrases from `query` for     heading-anc",
+      "app/retrieve.py"
+    ],
+    [
+      "app_retrieve_demo_rationale_1",
+      "Interactive retrieval sanity check. Run with:      python -m app.retrieve_demo \"",
+      "app/retrieve_demo.py"
+    ],
+    [
+      "app_router_rationale_1",
+      "Agentic step #1 — the (product, intent) router + query rewriter.  Given a natura",
+      "app/router.py"
+    ],
+    [
+      "app_router_rationale_58",
+      "Load index/doc_summaries.json. Returns an empty list if missing —     the router",
+      "app/router.py"
+    ],
+    [
+      "app_router_rationale_71",
+      "Render the summaries as a compact bulleted block for the prompt.      Output loo",
+      "app/router.py"
+    ],
+    [
+      "app_router_rationale_175",
+      "Enforce invariants the LLM can't break:       - comparison intent must search AL",
+      "app/router.py"
+    ],
+    [
+      "app_router_rationale_190",
+      "Classify a user question into (products, intent) + rewritten query.      Returns",
+      "app/router.py"
+    ],
+    [
+      "app_schemas_rationale_1",
+      "All Pydantic models in one place.  These are the contracts between pipeline stag",
+      "app/schemas.py"
+    ],
+    [
+      "app_schemas_rationale_92",
+      "A retrieved chunk plus its metadata. Mirrors the index schema.",
+      "app/schemas.py"
+    ],
+    [
+      "app_smoke_rationale_1",
+      "Phase 0 smoke test. Run with: python -m app.smoke  Verifies:   1. All required d",
+      "app/smoke.py"
+    ],
+    [
+      "eval_run_eval_rationale_1",
+      "Run the eval harness and print a scorecard.  Usage:     python -m eval.run_eval",
+      "eval/run_eval.py"
+    ],
+    [
+      "eval_run_eval_rationale_92",
+      "Mutate `row` with observed values + boolean grades. Returns the row.",
+      "eval/run_eval.py"
+    ],
+    [
+      "eval_run_eval_rationale_168",
+      "Compact table: one line per row, columns for each grade.",
+      "eval/run_eval.py"
+    ],
+    [
+      "tests_test_agent_rationale_1",
+      "Phase 4 generator + verifier tests.    - TestGenerateLogic / TestVerifyLogic: mo",
+      "tests/test_agent.py"
+    ],
+    [
+      "tests_test_agent_rationale_30",
+      "Return the bare content string — that's what llm.chat() returns     after the pr",
+      "tests/test_agent.py"
+    ],
+    [
+      "tests_test_agent_rationale_258",
+      "End-to-end against real models using the live retriever index.      These are sm",
+      "tests/test_agent.py"
+    ],
+    [
+      "tests_test_api_rationale_1",
+      "Phase 6 FastAPI surface tests.  Uses FastAPI's TestClient — no real server, no r",
+      "tests/test_api.py"
+    ],
+    [
+      "tests_test_chunker_rationale_1",
+      "Phase 1 chunker correctness tests.  These pin down the expected behavior on real",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_24",
+      "The largest, most-structured PDF — used for most assertions.",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_36",
+      "§1.3 body must include the full definition prose, not just the trailing     frag",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_58",
+      "Real top-level section numbers in this SDG go up to ~30. Anything     above that",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_81",
+      "Chunks should walk through the doc — late chunks should be on late     pages. If",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_105",
+      "No chunks should be useless runts (< 15 chars — those are zero-info     leftover",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_chunker_rationale_121",
+      "The 'SAP ERP, private cloud edition.pdf' lacks numbered structure.     The chunk",
+      "tests/test_chunker.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_1",
+      "Phase 5 guardrails tests.    - TestStage1: deterministic regex tests, no LLM, fa",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_25",
+      "llm.chat() returns the bare content string (provider abstraction).",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_131",
+      "Short questions that mention SAP-specific vocabulary should NOT         invoke t",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_152",
+      "A 3-word question with NO SAP vocabulary still hits Stage 2 —         the safety",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_190",
+      "If Stage 1 catches a query, Stage 2 must not run (saves latency).",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_guardrails_rationale_267",
+      "A 3-word question hits Stage 2; the small model should classify         it sensi",
+      "tests/test_guardrails.py"
+    ],
+    [
+      "tests_test_llm_rationale_1",
+      "Tests for the LLM provider abstraction.  Verifies provider dispatch, env-var-bas",
+      "tests/test_llm.py"
+    ],
+    [
+      "tests_test_llm_rationale_98",
+      "If `openai` isn't installed, calling chat() with LLM_PROVIDER=openai         sho",
+      "tests/test_llm.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_1",
+      "Phase 6 pipeline tests.    - TestPipelineFlow: mocked tests covering the full ro",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_37",
+      "Drop-in retriever that returns canned chunks. Bypasses Ollama / Chroma.     Kept",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_137",
+      "If the input guardrail rejects, NO downstream calls happen.",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_157",
+      "If the verifier says ungrounded, retrieval+generation+verify run again.",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_186",
+      "If verify is ungrounded twice, return the answer with verified=false + warning.",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_207",
+      "If check_output downgrades to refusal, the verifier sees a refusal and auto-pass",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_pipeline_rationale_249",
+      "The router's products list must be translated to a doc_id list         the retri",
+      "tests/test_pipeline.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_1",
+      "Phase 2 retrieval correctness tests. Requires ./index/ to be built.  Run with:",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_15",
+      "One Retriever shared across all tests in this module.",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_23",
+      "Cold start should produce a non-empty corpus.",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_39",
+      "The defining test from Phase 1: 'What is an Active User?' should     retrieve th",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_71",
+      "A paraphrased question with no exact keyword overlap with the SDG     should sti",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_104",
+      "A broad cross-product term ('subscription term') should naturally     pull from",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_124",
+      "intent='comparison' should default to COMPARISON_TOP_K (8) when k     is not spe",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_138",
+      "Every chunk returned by search() must carry the diagnostic fields:     score, an",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_retrieve_rationale_165",
+      "A truly off-topic query should still return SOMETHING (valid Chunks)     rather",
+      "tests/test_retrieve.py"
+    ],
+    [
+      "tests_test_router_rationale_1",
+      "Phase 3 router tests.  Two test classes:   - TestRouterLogic: mocked Ollama. Fas",
+      "tests/test_router.py"
+    ],
+    [
+      "tests_test_router_rationale_31",
+      "llm.chat() returns the bare content string (provider abstraction).     Name kept",
+      "tests/test_router.py"
+    ],
+    [
+      "tests_test_router_rationale_154",
+      "Realistic questions against the actual Ollama model.      These are NOT contract",
+      "tests/test_router.py"
+    ],
+    [
+      "tests_test_ui_rationale_1",
+      "Test that the Streamlit UI actually loads end-to-end.  Uses Streamlit's official",
+      "tests/test_ui.py"
+    ],
+    [
+      "tests_test_ui_rationale_24",
+      "The Streamlit script must execute end-to-end without ImportError /     ModuleNot",
+      "tests/test_ui.py"
+    ],
+    [
+      "ui_streamlit_app_rationale_1",
+      "Streamlit UI for the Agentic RAG system.  Run with:     streamlit run ui/streaml",
+      "ui/streamlit_app.py"
+    ],
+    [
+      "ui_streamlit_app_rationale_152",
+      "Top-of-card status row: badge + latency.",
+      "ui/streamlit_app.py"
+    ],
+    [
+      "readme_hybrid_retrieval",
+      "Hybrid BM25 + Vector + RRF Retrieval",
+      "README.md"
+    ],
+    [
+      "readme_heading_anchor_boost",
+      "Heading-Anchor Boost",
+      "README.md"
+    ],
+    [
+      "readme_structure_aware_chunking",
+      "Structure-Aware Regex Chunking with PAGE markers",
+      "README.md"
+    ],
+    [
+      "readme_two_model_split",
+      "Two-Model Split (8B gen + 3B small)",
+      "README.md"
+    ],
+    [
+      "readme_num_ctx_8192",
+      "NUM_CTX=8192 explicit cap",
+      "README.md"
+    ],
+    [
+      "readme_provider_abstraction",
+      "Provider Abstraction (app/llm.py)",
+      "README.md"
+    ],
+    [
+      "readme_citation_salvage",
+      "Citation Salvage + Quote Re-Anchoring",
+      "README.md"
+    ],
+    [
+      "readme_cross_encoder_reranker",
+      "Cross-Encoder Reranker (future work)",
+      "README.md"
+    ],
+    [
+      "docker_compose_metal_rationale",
+      "Metal GPU passthrough limitation rationale",
+      "docker-compose.yml"
+    ],
+    [
+      "scorecard_q2_api_call_failure",
+      "Q2 API Call defined-term confusion",
+      "eval/SCORECARD.md"
+    ],
+    [
+      "scorecard_q5_comparison_failure",
+      "Q5 Cross-Product Comparison RISE-skew",
+      "eval/SCORECARD.md"
+    ],
+    [
+      "scorecard_intent_boundary",
+      "Q11/Q12 Intent Boundary Cases",
+      "eval/SCORECARD.md"
+    ],
+    [
+      "scorecard_verifier_justified",
+      "Verifier Justification (catches Q5)",
+      "eval/SCORECARD.md"
+    ]
+  ]
+}
