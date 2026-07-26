@@ -206,7 +206,7 @@ def answer(
     # mis-labels it (e.g. cites "Up to 1000 FUE / S" but answers "M").
     # Generic across any tier/threshold table; opts out for non-numeric
     # questions or non-label-shaped answers. See app/answer_guard.py.
-    draft, guard_debug = answer_guard.maybe_correct(question, draft)
+    draft, guard_debug = answer_guard.maybe_correct(question, draft, chunks=chunks)
     trace["answer_guard"] = guard_debug
 
     # ---- Step 5a: output guardrail (cheap, deterministic) -------------
@@ -265,7 +265,7 @@ def answer(
         latency["generate_retry"] = int((time.time() - t0) * 1000)
 
         # Re-apply the deterministic answer guard on the retry draft too.
-        draft, _ = answer_guard.maybe_correct(question, draft)
+        draft, _ = answer_guard.maybe_correct(question, draft, chunks=chunks)
 
         # Re-apply output guardrail on the retry draft
         draft, retry_og_debug = guardrails.check_output(draft)

@@ -13,8 +13,7 @@ Why this is the FIRST agentic step (the interview pitch):
   - Corpus has 2 products in 3 PDFs (the two RISE docs overlap).
   - A user asks "what's the SLA for RISE?" — the LLM needs to know that
     BOTH RISE docs are candidates, not just the one whose filename matches.
-  - Routing on (product, intent) instead of filenames matches the user's
-    mental model.
+  - Routing on (product, intent) instead of filenames matches the user's model.
   - intent steers downstream: comparison → top-8 chunks across all docs;
     definition → boost vector weight in RRF.
 
@@ -32,22 +31,21 @@ Architecture decisions:
     for the actual corpus, not its training-time knowledge of SAP.
 
 Performance envelope:
-  Each route() call = 1 LLM chat to MODEL_SMALL (llama3.2:3b by default).
-  Typical latency on M2 + Ollama: 0.5-1.5s. Cold start of the small model:
-  +2s once. Cloud providers (OpenAI, Claude, Gemini) are typically faster
-  per call but add ~50-200ms of network round-trip. See app/llm.py for
-  the provider abstraction.
+  Each route() call = 1 ollama.chat() to llama3.2:3b. Typical latency
+  on M2: 0.5-1.5s. Cold start of the small model: +2s once.
 """
 
 from __future__ import annotations
 
 import json
 import time
+from pathlib import Path
 from typing import Any
 
+import ollama
 from pydantic import ValidationError
 
-from app import config, llm
+from app import config
 from app.schemas import RouteDecision
 
 
@@ -216,17 +214,17 @@ def route(question: str, *, _retries_left: int = 1) -> tuple[RouteDecision, dict
 
     t0 = time.time()
     try:
-        raw = llm.chat(
+        resp = ollama.chat(
             model=config.MODEL_SMALL,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": question},
             ],
             format="json",
-            temperature=config.ROUTE_TEMPERATURE,
-            num_ctx=config.NUM_CTX,
+            options={"temperature": config.ROUTE_TEMPERATURE},
         )
         debug["latency_ms"] = int((time.time() - t0) * 1000)
+        raw = resp["message"]["content"]
         debug["raw_response"] = raw
     except Exception as e:
         debug["latency_ms"] = int((time.time() - t0) * 1000)

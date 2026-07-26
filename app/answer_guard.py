@@ -89,9 +89,21 @@ class _Match:
 def maybe_correct(
     question: str,
     answer: GeneratedAnswer,
+    chunks: list | None = None,
 ) -> tuple[GeneratedAnswer, dict[str, object]]:
     """If the LLM mis-labelled a numeric threshold answer, fix it from the
-    citation quote. Otherwise return the answer unchanged.
+    retrieved evidence. Otherwise return the answer unchanged.
+
+    Evidence is searched in this order:
+      1. The retrieved chunks' actual text (most trustworthy — verbatim
+         from the index, not paraphrased by the LLM).
+      2. The LLM's citation quotes (fallback when chunks aren't passed,
+         e.g. unit tests).
+
+    Looking at chunk text first matters because small models sometimes
+    fabricate the quote (combining a real bound from one row with a
+    label from another, or omitting the unit). The guard must trust
+    retrieved evidence over the LLM's report of that evidence.
 
     Returns (possibly-corrected answer, debug). Debug fields:
         applied            bool — did we override the answer?
@@ -100,6 +112,8 @@ def maybe_correct(
         corrected_label    replacement label (only when applied)
         corrected_answer   replacement sentence (only when applied)
         bound              numeric bound that was matched (only when applied)
+        evidence_source    "chunk" | "citation_quote" — where the bound
+                            was found
     """
     debug: dict[str, object] = {"applied": False, "reason": "no-op"}
 
@@ -115,62 +129,88 @@ def maybe_correct(
         debug["reason"] = "no-number-in-question"
         return answer, debug
 
-    # 2. Scan every citation quote for a bound that envelopes any (N, unit)
-    #    pair from the question. Pick the SMALLEST enveloping bound (the
-    #    "tier-just-above-N" rule).
+    # 2. Search the retrieved chunks' actual text first. This is verbatim
+    #    from the index — the LLM cannot tamper with it.
     best: _Match | None = None
-    for i, cit in enumerate(answer.citations):
-        quote = cit.quote or ""
-        if not quote:
-            continue
+    evidence_source = "chunk"
+    chunk_texts: list[tuple[int, str]] = []
+    if chunks:
+        for i, c in enumerate(chunks):
+            text = getattr(c, "text", None)
+            if isinstance(text, str) and text.strip():
+                chunk_texts.append((i, text))
+
+    for i, text in chunk_texts:
         for n, unit in pairs:
-            m = _smallest_bound_containing(quote, n, unit)
+            m = _smallest_bound_containing(text, n, unit)
             if m is None:
                 continue
-            label = _label_after_bound(quote, m[1])
+            label = _label_after_bound(text, m[1])
             if not label:
                 continue
             match = _Match(
-                bound=m[0],
-                unit=unit,
-                label=label,
-                quote_index=i,
-                span=m[1],
+                bound=m[0], unit=unit, label=label,
+                quote_index=i, span=m[1],
             )
             if best is None or match.bound < best.bound:
                 best = match
 
+    # 3. Fallback: scan the LLM's citation quotes only if chunks didn't
+    #    yield a match. (Unit-test convenience and defence-in-depth.)
     if best is None:
-        debug["reason"] = "no-matching-bound-in-citations"
+        evidence_source = "citation_quote"
+        for i, cit in enumerate(answer.citations):
+            quote = cit.quote or ""
+            if not quote:
+                continue
+            for n, unit in pairs:
+                m = _smallest_bound_containing(quote, n, unit)
+                if m is None:
+                    continue
+                label = _label_after_bound(quote, m[1])
+                if not label:
+                    continue
+                match = _Match(
+                    bound=m[0], unit=unit, label=label,
+                    quote_index=i, span=m[1],
+                )
+                if best is None or match.bound < best.bound:
+                    best = match
+
+    if best is None:
+        debug["reason"] = "no-matching-bound-in-evidence"
         return answer, debug
 
-    # 3. Determine what label (if any) the LLM is currently claiming. The
-    #    answer may be either a bare label ("M") or a sentence containing
-    #    a label ("...the size tier is M."). For sentences, we look for
-    #    label-shaped tokens that ALSO appear in the cited quote — those
-    #    are the candidate labels. The guard intervenes only when we can
-    #    identify a claimed label and it disagrees with the bound's label.
-    quote = answer.citations[best.quote_index].quote or ""
+    # 4. Determine what label (if any) the LLM is currently claiming.
     claimed_label = _extract_claimed_label(
         raw_text, expected=best.label, question=question,
     )
 
     if claimed_label is None:
-        # We cannot identify a label in the LLM's answer, OR the LLM is
-        # already saying the right thing (in which case _extract returned None).
-        # Either way, do nothing.
         debug["reason"] = "claimed-label-matches-or-absent"
         return answer, debug
-
     if claimed_label == best.label:
         debug["reason"] = "answer-already-matches-bound-label"
         return answer, debug
 
-    # 4. Phrase the corrected answer as a complete sentence and override.
+    # 5. Phrase the corrected answer as a complete sentence. Anchor the
+    #    phrasing on the strongest evidence we have — prefer the chunk
+    #    text we found the bound in over the (possibly-fabricated) quote.
+    if evidence_source == "chunk" and chunks:
+        # `quote_index` here is the chunk index; pull a tight window
+        # around the matched span so the phrasing model sees just the
+        # relevant row, not the entire 1500-char chunk.
+        chunk_text = chunks[best.quote_index].text
+        start = max(0, best.span[0] - 20)
+        end = min(len(chunk_text), best.span[1] + 120)
+        anchor_text = chunk_text[start:end]
+    else:
+        anchor_text = answer.citations[best.quote_index].quote or ""
+
     sentence, phrase_debug = _phrase_as_sentence(
         question=question,
         label=best.label,
-        quote=quote,
+        quote=anchor_text,
     )
     corrected = answer.model_copy(update={"answer": sentence})
     debug.update({
@@ -182,6 +222,7 @@ def maybe_correct(
         "corrected_answer": sentence,
         "bound": best.bound,
         "unit": best.unit,
+        "evidence_source": evidence_source,
         "phrasing": phrase_debug,
     })
     return corrected, debug
